@@ -2,10 +2,11 @@ import React, { PropTypes } from 'react'
 
 class Lobby extends React.Component {
   render () {
+    console.log(this);
 
     return(
     <div>
-      Lobby
+      {this.props.params.gameCode}
     </div>)
   }
 }
