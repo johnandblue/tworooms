@@ -7,16 +7,19 @@ import {browserHistory } from 'react-router';
 import '../../client/main.css';
 import { Games } from '../api/games.js';
 
+import { Meteor } from 'meteor/meteor';
+import { createContainer } from 'meteor/react-meteor-data';
+
 
 const containerStyle = {
   margin: '0 auto',
-  width: 960,
+  // width: 960,
   padding: 20,
   display: 'flex'
 }
 
 const LoginStyle={
-  marginTop:200,
+  // marginTop:200,
   padding: 40,
   fontSize: 20,
   marginBottom: 15,
@@ -28,97 +31,146 @@ const style = {
   margin:15,
 };
 
-
-export default class Root extends Component {
+class Root extends Component {
   constructor(){
     super();
-    this.state={open:false, code:''};
+    this.state={
+      newGame:false,
+      open:false,
+      playerName:'',
+      code:''
+    }
   }
 
-  handleOpen () {
+  handleOpenNew () {
+    this.setState({newGame: true});
+  }
+
+  handleOpenJoin () {
     this.setState({open: true});
   }
 
   handleClose()  {
-    if (this.state.code.length>0) {
 
-    }
-    this.setState({open: false});
+    this.setState({open: false,newGame: false});
 
   }
 
   createNewGame() {
-    const gameCode = Math.floor(Math.random()*100000);
 
-    // const text = ReactDOM.findDOMNode(this.refs.textInput).value.trim();
-
-    Games.insert({
-      gameCode,
-      createdAt: new Date(), // current time
-      // owner: Meteor.userId(),           // _id of logged in user
-      // username: Meteor.user().username,  // username of logged in user
-    });
-
-
+    const gameCode = String(Math.floor(Math.random()*100000));
+    Meteor.call('games.insert', gameCode, this.state.playerName);
     browserHistory.push(`game/${gameCode}`)
   }
   joinGame(){
-
-
+    Meteor.call('games.addPlayer', this.state.code, this.state.playerName);
+    browserHistory.push(`game/${this.state.code}`)
   }
 
 
   render() {
 
-    const actions = [
-        <RaisedButton
-          label="Cancel"
-          primary={true}
-          onTouchTap={this.handleClose.bind(this)}
-        />,
-        <RaisedButton
-          label="Submit"
-          primary={true}
-          keyboardFocused={true}
-          onTouchTap={this.handleClose.bind(this)}
-        />,
-      ];
+    const actionsNew = [
+      <RaisedButton
+        style={{margin:15}}
+        label="Cancel"
+        primary={true}
+        onTouchTap={this.handleClose.bind(this)}
+      />,
+      <RaisedButton
+        style={{marginLeft:10, marginRight:10}}
+        label="Submit"
+        primary={true}
+        keyboardFocused={true}
+        onTouchTap={this.createNewGame.bind(this)}
+      />,
+    ];
+
+    const actionsJoin = [
+      <RaisedButton
+        style={{margin:15}}
+        label="Cancel"
+        primary={true}
+        onTouchTap={this.handleClose.bind(this)}
+      />,
+      <RaisedButton
+        style={{marginLeft:10, marginRight:10}}
+        label="Submit"
+        primary={true}
+        keyboardFocused={true}
+        onTouchTap={this.joinGame.bind(this)}
+      />,
+    ];
 
     return (
       <div style={containerStyle}>
         <div style={{margin:'auto'}}>
           <Card style={LoginStyle}>
             <RaisedButton
+              style={style}
               label= 'NEW GAME'
               primary={true}
-              onTouchTap={this.createNewGame.bind(this)}
-              style={style}
+              onTouchTap={this.handleOpenNew.bind(this)}
+              // onTouchTap={this.createNewGame.bind(this)}
             />
             <RaisedButton
-              label= 'JOIN GAME'
-
-              primary={true}
               style={style}
-              onTouchTap={this.handleOpen.bind(this)}
-              /  >
-              <Dialog
-                title="Please, write your code to enter the Lobby"
-                actions={actions}
-                modal={true}
-                open={this.state.open}
-                >
-                  <TextField
-                    name= "code"
-                    hintText="Code"
-                    floatingLabelText="Insert your code here"
-                    floatingLabelFixed={true}
-                    onChange={(event, code) => this.setState({code})}
-                  /><br />
-                </Dialog>
-              </Card>
+              label= 'JOIN GAME'
+              primary={true}
+              onTouchTap={this.handleOpenJoin.bind(this)}
+            />
+            <Dialog
+              style={LoginStyle}
+              title="Please, write your username to enter the Lobby"
+              actions={actionsNew}
+              modal={true}
+              open={this.state.newGame}
+              >
 
-            </div>
-          </div>
-        );
-      }
-    }
+              <TextField
+                name= "player"
+                hintText="Player"
+                floatingLabelText="Insert your name here"
+                floatingLabelFixed={true}
+                onChange={(event, playerName) => this.setState({playerName})}
+              />
+            </Dialog>
+
+            <Dialog
+              style={LoginStyle}
+              title="Insert your Username and Game Code"
+              actions={actionsJoin}
+              modal={true}
+              open={this.state.open}
+              >
+              <TextField
+                name= "code"
+                hintText="Code"
+                floatingLabelText="Insert your code here"
+                floatingLabelFixed={true}
+                onChange={(event, code) => this.setState({code})}
+              />
+              <TextField
+                name= "player"
+                hintText="Player"
+                floatingLabelText="Insert your name here"
+                floatingLabelFixed={true}
+                onChange={(event, playerName) => this.setState({playerName})}
+              />
+            </Dialog>
+
+          </Card>
+        </div>
+      </div>
+    );
+  }
+}
+
+export default createContainer(() => {
+  Meteor.subscribe('games');
+
+  return {
+    games: Games.find({}, { sort: { createdAt: -1 } }).fetch(),
+    // incompleteCount: Tasks.find({ checked: { $ne: true } }).count(),
+  };
+}, Root);

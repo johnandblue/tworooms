@@ -10,21 +10,13 @@ const style={
 
 export default class App extends Component {
 
-
-  createNewGame() {
-    const gameCode = Math.floor(Math.random()*100000);
-    browserHistory.push(`game/${gameCode}`)
-
-  }
-
-
   render() {
     return (
-      <div className="container">
-
+      <div>
         <header>
           <AppBar
-          style={style}/>
+            title="Two Rooms and a Boom"
+            style={style}/>
         </header>
         {this.props.children}
       </div>

@@ -3,17 +3,31 @@ import { Mongo } from 'meteor/mongo';
 import { check } from 'meteor/check';
 
 
-export const Games = new Mongo.Collection('games');
+export const Games = new Meteor.Collection('games');
+
+// const gameCode = Math.floor(Math.random()*100000);
+
+if (Meteor.isServer) {
+  // This code only runs on the server
+  Meteor.publish('games', function gamesPublication() {
+    return Games.find();
+  });
+}
 
 Meteor.methods({
-  'games.insert'(text) {
-    check(text, String);
-
+  'games.insert'(gameCode, player) {
+    check(gameCode, String);
+    check(player, String);
     Games.insert({
-      text,
+      gameCode,
+      player:[player],
       createdAt: new Date(),
-      // owner: this.userId,
-      // username: Meteor.users.findOne(this.userId).username,
     });
   },
+  'games.addPlayer'(gameCode, player) {
+    check(gameCode, String);
+    check(player, String);
+    const res=(Games.findOne({gameCode:gameCode}));
+    Games.update(res._id, { $push: { player: player } });
+  }
 });

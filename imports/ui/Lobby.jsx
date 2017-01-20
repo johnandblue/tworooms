@@ -3,6 +3,8 @@ import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import Dialog from 'material-ui/Dialog';
 import { Card, CardHeader, CardText } from 'material-ui/Card';
+import { createContainer } from 'meteor/react-meteor-data';
+import { Games } from '../api/games.js';
 
 const containerStyle = {
   margin: '0 auto',
@@ -39,32 +41,48 @@ class Lobby extends React.Component {
   //   this.
   // }
 
+  renderPlayers() {
+    let games = this.props.games;
+
+    const currentGame = games.filter(game =>{
+      return (this.props.params.gameCode===game.gameCode);
+    });
+
+
+    if (currentGame[0]) {
+      return currentGame[0].player.map((player) => {
+        console.log(player);
+        return (
+
+        <div key={player._id}>{player}</div>
+
+      )});
+
+    }
+    return null;
+
+  }
 
 
   render () {
-    console.log(this);
+    return (
+      <div style={containerStyle}>
+        <div style={{margin: 'auto'}}>
+          <Card style={CardStyle}>
 
-    return(
-    <div style={containerStyle}>
-      <div style={{margin: 'auto'}}>
-        <Card style={CardStyle}>
+            <CardHeader
+              title={this.props.params.gameCode}
+            />
+          </Card>
+          {this.renderPlayers.bind(this)()}
+        </div>
+      </div>)
 
-          <TextField
-            name= "player"
-            hintText="player"
-            floatingLabelText="Insert your name"
-            floatingLabelFixed={true}
-            // onChange={(event, player) => this.setState({...player})}
-          />
-
-          <CardHeader
-            title={this.props.params.gameCode}
-          />
-        </Card>
-      </div>
-    </div>)
-
+    }
   }
-}
 
-export default Lobby;
+  export default createContainer(() => {
+    return {
+      games: Games.find({}, { sort: { createdAt: -1 } }).fetch(),
+    };
+  }, Lobby);
