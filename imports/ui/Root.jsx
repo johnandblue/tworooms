@@ -150,7 +150,6 @@ class Root extends Component {
                 floatingLabelFixed={true}
                 onChange={(event, code) => this.setState({code})}
               />
-              <br />
               <TextField
                 name= "player"
                 hintText="Player"
@@ -158,6 +157,7 @@ class Root extends Component {
                 floatingLabelFixed={true}
                 onChange={(event, playerName) => this.setState({playerName})}
               />
+              <br />
             </Dialog>
 
           </Card>
