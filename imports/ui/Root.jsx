@@ -7,6 +7,9 @@ import {browserHistory } from 'react-router';
 import '../../client/main.css';
 import { Games } from '../api/games.js';
 
+import { Meteor } from 'meteor/meteor';
+import { createContainer } from 'meteor/react-meteor-data';
+
 
 const containerStyle = {
   margin: '0 auto',
@@ -16,7 +19,7 @@ const containerStyle = {
 }
 
 const LoginStyle={
-  marginTop:200,
+  // marginTop:200,
   padding: 40,
   fontSize: 20,
   marginBottom: 15,
@@ -28,8 +31,7 @@ const style = {
   margin:15,
 };
 
-
-export default class Root extends Component {
+class Root extends Component {
   constructor(){
     super();
     this.state={
@@ -57,17 +59,14 @@ export default class Root extends Component {
   }
 
   createNewGame() {
-    const gameCode = Math.floor(Math.random()*100000);
 
-    Meteor.call('games.insert', gameCode,this.state.playerName);
+    Meteor.call('games.insert', this.state.playerName);
 
-    browserHistory.push(`game/${gameCode}/admin`)
+    // browserHistory.push(`game/${gameCode}`)
   }
   joinGame(){
-
-    // Meteor.call('games.insert', gameCode,this.state.playerName);
-
-    browserHistory.push(`game/${this.code}`)
+    Meteor.call('games.insert', this.state.playerName);
+    // browserHistory.push(`game/${this.code}`)
   }
 
 
@@ -104,7 +103,7 @@ export default class Root extends Component {
               style={style}
               label= 'JOIN GAME'
               primary={true}
-              onTouchTap={this.handleOpen.bind(this)}
+              onTouchTap={this.joinGame.bind(this)}
             />
             <Dialog
               style={LoginStyle}
@@ -114,42 +113,51 @@ export default class Root extends Component {
               open={this.state.newGame}
               >
 
-                <TextField
-                  name= "player"
-                  hintText="Player"
-                  floatingLabelText="Insert your name here"
-                  floatingLabelFixed={true}
-                  onChange={(event, playerName) => this.setState({playerName})}
-                />
-              </Dialog>
+              <TextField
+                name= "player"
+                hintText="Player"
+                floatingLabelText="Insert your name here"
+                floatingLabelFixed={true}
+                onChange={(event, playerName) => this.setState({playerName})}
+              />
+            </Dialog>
 
-              <Dialog
-                style={LoginStyle}
-                title="Insert your Username and Game Code"
-                actions={actions}
-                modal={true}
-                open={this.state.open}
-                >
-                  <TextField
-                    name= "code"
-                    hintText="Code"
-                    floatingLabelText="Insert your code here"
-                    floatingLabelFixed={true}
-                    onChange={(event, code) => this.setState({code})}
-                  />
-                  <br />
-                  <TextField
-                    name= "player"
-                    hintText="Player"
-                    floatingLabelText="Insert your name here"
-                    floatingLabelFixed={true}
-                    onChange={(event, playerName) => this.setState({playerName})}
-                  />
-                </Dialog>
+            <Dialog
+              style={LoginStyle}
+              title="Insert your Username and Game Code"
+              actions={actions}
+              modal={true}
+              open={this.state.open}
+              >
+              <TextField
+                name= "code"
+                hintText="Code"
+                floatingLabelText="Insert your code here"
+                floatingLabelFixed={true}
+                onChange={(event, code) => this.setState({code})}
+              />
+              <br />
+              <TextField
+                name= "player"
+                hintText="Player"
+                floatingLabelText="Insert your name here"
+                floatingLabelFixed={true}
+                onChange={(event, playerName) => this.setState({playerName})}
+              />
+            </Dialog>
 
-              </Card>
-            </div>
-          </div>
-        );
-      }
-    }
+          </Card>
+        </div>
+      </div>
+    );
+  }
+}
+
+export default createContainer(() => {
+  Meteor.subscribe('games');
+
+  return {
+    // tasks: Tasks.find({}, { sort: { createdAt: -1 } }).fetch(),
+    // incompleteCount: Tasks.find({ checked: { $ne: true } }).count(),
+  };
+}, Root);
