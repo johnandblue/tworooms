@@ -11,11 +11,6 @@ const style={
 export default class App extends Component {
 
 
-  createNewGame() {
-    const gameCode = Math.floor(Math.random()*100000);
-    browserHistory.push(`game/${gameCode}`)
-
-  }
 
 
   render() {

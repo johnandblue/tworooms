@@ -5,40 +5,22 @@ import { check } from 'meteor/check';
 
 export const Games = new Meteor.Collection('games');
 
-// GameSchema = new SimpleSchema({
-//   "code": {
-//     type: String,
-//     label: "gameCode"
-//   },
-//   "code.players": {
-//     type: Array,
-//     label: "players"
-//   }
-// });
-//
-// Games.attachSchema(GameSchema);
 
 Meteor.methods({
   'games.insert'(gameCode,player) {
-    check(gameCode, String);
+    check(gameCode, Number);
     check(player, String);
-
+    console.log(player);
     Games.insert({
       gameCode,
       players:[player],
       createdAt: new Date(),
-
-
     });
   },
   'games.addPlayer'(gameCode,player) {
     check(gameCode, String);
     check(player, String);
 
-    Games.insert({
-      gameCode,
-      players:[player],
-      createdAt: new Date(),
-    });
+    Games.update(gameCode, { $push: { players: player } });
   }
 });

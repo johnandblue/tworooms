@@ -16,6 +16,7 @@ export const renderRoutes = () => (
       <Route path="/" component={App}>
         <IndexRoute component={Root}/>
         <Route path="/game/:gameCode" component={Lobby}/>
+        <Route path="/game/:gameCode/admin" component={Lobby}/>
       </Route>
     </Router>
   </MuiThemeProvider>

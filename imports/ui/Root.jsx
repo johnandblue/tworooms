@@ -33,12 +33,17 @@ export default class Root extends Component {
   constructor(){
     super();
     this.state={
-      open2:false,
-      open:false};
+      newGame:false,
+      open:false,
+      playerName:'',
+      code:'',
+
+
+    }
   }
 
   handleOpen2 () {
-    this.setState({open2: true});
+    this.setState({newGame: true});
   }
 
   handleOpen () {
@@ -47,43 +52,42 @@ export default class Root extends Component {
 
   handleClose()  {
 
-    this.setState({open: false,open2: false});
+    this.setState({open: false,newGame: false});
 
-    console.log(this.state);
   }
 
   createNewGame() {
     const gameCode = Math.floor(Math.random()*100000);
 
+    Meteor.call('games.insert', gameCode,this.state.playerName);
 
-    // const text = ReactDOM.findDOMNode(this.refs.textInput).value.trim();
-
-
-    browserHistory.push(`game/${gameCode}`)
+    browserHistory.push(`game/${gameCode}/admin`)
   }
   joinGame(){
 
+    // Meteor.call('games.insert', gameCode,this.state.playerName);
 
+    browserHistory.push(`game/${this.code}`)
   }
 
 
   render() {
 
     const actions = [
-        <RaisedButton
-          style={{margin:15}}
-          label="Cancel"
-          primary={true}
-          onTouchTap={this.handleClose.bind(this)}
-        />,
-        <RaisedButton
-          style={{marginLeft:10, marginRight:10}}
-          label="Submit"
-          primary={true}
-          keyboardFocused={true}
-          onTouchTap={this.handleClose.bind(this)}
-        />,
-      ];
+      <RaisedButton
+        style={{margin:15}}
+        label="Cancel"
+        primary={true}
+        onTouchTap={this.handleClose.bind(this)}
+      />,
+      <RaisedButton
+        style={{marginLeft:10, marginRight:10}}
+        label="Submit"
+        primary={true}
+        keyboardFocused={true}
+        onTouchTap={this.createNewGame.bind(this)}
+      />,
+    ];
 
     return (
       <div style={containerStyle}>
@@ -104,55 +108,48 @@ export default class Root extends Component {
             />
             <Dialog
               style={LoginStyle}
-              title="Please, write your code and username to enter the Lobby"
+              title="Please, write your username to enter the Lobby"
               actions={actions}
               modal={true}
-              open={this.state.open2}
-            >
-              <TextField
-                name= "code"
-                hintText="Code"
-                floatingLabelText="Insert your code here"
-                floatingLabelFixed={true}
-                onChange={(event, code) => this.setState({code})}
-              />
-              <br />
-              <TextField
-                name= "player"
-                hintText="Player"
-                floatingLabelText="Insert your name here"
-                floatingLabelFixed={true}
-                onChange={(event, player) => this.setState({player})}
-              />
-            </Dialog>
+              open={this.state.newGame}
+              >
 
-            <Dialog
-              style={LoginStyle}
-              title="2"
-              actions={actions}
-              modal={true}
-              open={this.state.open}
-            >
-              <TextField
-                name= "code"
-                hintText="Code"
-                floatingLabelText="Insert your code here"
-                floatingLabelFixed={true}
-                onChange={(event, code) => this.setState({code})}
-              />
-              <br />
-              <TextField
-                name= "player"
-                hintText="Player"
-                floatingLabelText="Insert your name here"
-                floatingLabelFixed={true}
-                onChange={(event, player) => this.setState({player})}
-              />
-            </Dialog>
+                <TextField
+                  name= "player"
+                  hintText="Player"
+                  floatingLabelText="Insert your name here"
+                  floatingLabelFixed={true}
+                  onChange={(event, playerName) => this.setState({playerName})}
+                />
+              </Dialog>
 
-          </Card>
-        </div>
-      </div>
-    );
-  }
-}
+              <Dialog
+                style={LoginStyle}
+                title="Insert your Username and Game Code"
+                actions={actions}
+                modal={true}
+                open={this.state.open}
+                >
+                  <TextField
+                    name= "code"
+                    hintText="Code"
+                    floatingLabelText="Insert your code here"
+                    floatingLabelFixed={true}
+                    onChange={(event, code) => this.setState({code})}
+                  />
+                  <br />
+                  <TextField
+                    name= "player"
+                    hintText="Player"
+                    floatingLabelText="Insert your name here"
+                    floatingLabelFixed={true}
+                    onChange={(event, playerName) => this.setState({playerName})}
+                  />
+                </Dialog>
+
+              </Card>
+            </div>
+          </div>
+        );
+      }
+    }

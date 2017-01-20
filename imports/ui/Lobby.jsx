@@ -39,22 +39,14 @@ class Lobby extends React.Component {
   //   this.
   // }
 
-  
+
 
   render () {
-    console.log(this);
+    console.log(this.props);
     return (
       <div style={containerStyle}>
         <div style={{margin: 'auto'}}>
           <Card style={CardStyle}>
-
-            <TextField
-              name= "player"
-              hintText="player"
-              floatingLabelText="Insert your name"
-              floatingLabelFixed={true}
-              // onChange={(event, player) => this.setState({...player})}
-            />
 
             <CardHeader
               title={this.props.params.gameCode}
