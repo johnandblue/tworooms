@@ -43,15 +43,24 @@ class Lobby extends React.Component {
 
   renderPlayers() {
     let games = this.props.games;
-    const filteredPlayers = games.filter(game =>{
-      return (String(this.props.params.gameCode)===String(game.gameCode));
+
+    const currentGame = games.filter(game =>{
+      return (this.props.params.gameCode===game.gameCode);
     });
-    console.log(filteredPlayers);
-    return filteredPlayers.map((player) => (
 
-      <div>player.playerName</div>
 
-    ));
+    if (currentGame[0]) {
+      return currentGame[0].player.map((player) => {
+        console.log(player);
+        return (
+
+        <div key={player._id}>{player}</div>
+
+      )});
+
+    }
+    return null;
+
   }
 
 
@@ -65,7 +74,7 @@ class Lobby extends React.Component {
               title={this.props.params.gameCode}
             />
           </Card>
-          <p>{this.renderPlayers.bind(this)()}</p>
+          {this.renderPlayers.bind(this)()}
         </div>
       </div>)
 

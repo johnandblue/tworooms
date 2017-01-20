@@ -58,12 +58,12 @@ class Root extends Component {
 
   createNewGame() {
 
-    const gameCode = Math.floor(Math.random()*100000);
+    const gameCode = String(Math.floor(Math.random()*100000));
     Meteor.call('games.insert', gameCode, this.state.playerName);
     browserHistory.push(`game/${gameCode}`)
   }
   joinGame(){
-    Meteor.call('games.update', this.state.code, this.state.playerName);
+    Meteor.call('games.addPlayer', this.state.code, this.state.playerName);
     browserHistory.push(`game/${this.state.code}`)
   }
 
@@ -150,7 +150,6 @@ class Root extends Component {
                 floatingLabelFixed={true}
                 onChange={(event, code) => this.setState({code})}
               />
-              <br />
               <TextField
                 name= "player"
                 hintText="Player"

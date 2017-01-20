@@ -15,19 +15,19 @@ if (Meteor.isServer) {
 }
 
 Meteor.methods({
-  'games.insert'(gameCode,player) {
-    check(gameCode, Number);
+  'games.insert'(gameCode, player) {
+    check(gameCode, String);
     check(player, String);
     Games.insert({
       gameCode,
-      players:[player],
+      player:[player],
       createdAt: new Date(),
     });
   },
-  'games.addPlayer'(gameCode,player) {
+  'games.addPlayer'(gameCode, player) {
     check(gameCode, String);
     check(player, String);
-
-    Games.update(gameCode, { $push: { players: player } });
+    const res=(Games.findOne({gameCode:gameCode}));
+    Games.update(res._id, { $push: { player: player } });
   }
 });
