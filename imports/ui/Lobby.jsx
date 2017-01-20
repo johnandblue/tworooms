@@ -48,41 +48,31 @@ class Lobby extends React.Component {
       return (this.props.params.gameCode===game.gameCode);
     });
 
-
     if (currentGame[0]) {
-      return currentGame[0].player.map((player) => {
-        console.log(player);
-        return (
-
-        <div key={player._id}>{player}</div>
-
-      )});
-
+      return currentGame[0].player.map((player) =>
+          <div key={player._id}>{player}</div>
+        );
+      }
+      return null;
     }
-    return null;
 
-  }
-
-
-  render () {
-    return (
-      <div style={containerStyle}>
-        <div style={{margin: 'auto'}}>
-          <Card style={CardStyle}>
-
-            <CardHeader
-              title={this.props.params.gameCode}
-            />
-          </Card>
-          {this.renderPlayers.bind(this)()}
-        </div>
-      </div>)
-
+    render () {
+      return (
+        <div style={containerStyle}>
+          <div style={{margin: 'auto'}}>
+            <Card style={CardStyle}>
+              <CardHeader
+                title={this.props.params.gameCode}
+              />
+            </Card>
+            {this.renderPlayers.bind(this)()}
+          </div>
+        </div>)
+      }
     }
-  }
 
-  export default createContainer(() => {
-    return {
-      games: Games.find({}, { sort: { createdAt: -1 } }).fetch(),
-    };
-  }, Lobby);
+    export default createContainer(() => {
+      return {
+        games: Games.find({}, { sort: { createdAt: -1 } }).fetch(),
+      };
+    }, Lobby);

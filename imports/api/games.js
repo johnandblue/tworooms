@@ -27,7 +27,9 @@ Meteor.methods({
   'games.addPlayer'(gameCode, player) {
     check(gameCode, String);
     check(player, String);
+    console.log(gameCode,'find');
     const res=(Games.findOne({gameCode:gameCode}));
+
     Games.update(res._id, { $push: { player: player } });
   }
 });
