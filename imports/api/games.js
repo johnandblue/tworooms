@@ -5,6 +5,8 @@ import { check } from 'meteor/check';
 
 export const Games = new Meteor.Collection('games');
 
+// const gameCode = Math.floor(Math.random()*100000);
+
 if (Meteor.isServer) {
   // This code only runs on the server
   Meteor.publish('games', function gamesPublication() {

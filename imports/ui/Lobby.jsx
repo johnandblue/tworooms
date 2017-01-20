@@ -51,6 +51,7 @@ class Lobby extends React.Component {
             <CardHeader
               title={this.props.params.gameCode}
             />
+            <p>{this.props.params.players}</p>
           </Card>
         </div>
       </div>)

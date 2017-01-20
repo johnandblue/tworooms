@@ -38,17 +38,15 @@ class Root extends Component {
       newGame:false,
       open:false,
       playerName:'',
-      code:'',
-
-
+      code:''
     }
   }
 
-  handleOpen2 () {
+  handleOpenNew () {
     this.setState({newGame: true});
   }
 
-  handleOpen () {
+  handleOpenJoin () {
     this.setState({open: true});
   }
 
@@ -60,19 +58,19 @@ class Root extends Component {
 
   createNewGame() {
 
-    Meteor.call('games.insert', this.state.playerName);
-
-    // browserHistory.push(`game/${gameCode}`)
+    const gameCode = Math.floor(Math.random()*100000);
+    Meteor.call('games.insert', gameCode, this.state.playerName);
+    browserHistory.push(`game/${gameCode}`)
   }
   joinGame(){
-    Meteor.call('games.insert', this.state.playerName);
-    // browserHistory.push(`game/${this.code}`)
+    Meteor.call('games.update', this.state.code, this.state.playerName);
+    browserHistory.push(`game/${this.state.code}`)
   }
 
 
   render() {
 
-    const actions = [
+    const actionsNew = [
       <RaisedButton
         style={{margin:15}}
         label="Cancel"
@@ -88,6 +86,22 @@ class Root extends Component {
       />,
     ];
 
+    const actionsJoin = [
+      <RaisedButton
+        style={{margin:15}}
+        label="Cancel"
+        primary={true}
+        onTouchTap={this.handleClose.bind(this)}
+      />,
+      <RaisedButton
+        style={{marginLeft:10, marginRight:10}}
+        label="Submit"
+        primary={true}
+        keyboardFocused={true}
+        onTouchTap={this.joinGame.bind(this)}
+      />,
+    ];
+
     return (
       <div style={containerStyle}>
         <div style={{margin:'auto'}}>
@@ -96,19 +110,19 @@ class Root extends Component {
               style={style}
               label= 'NEW GAME'
               primary={true}
-              onTouchTap={this.handleOpen2.bind(this)}
+              onTouchTap={this.handleOpenNew.bind(this)}
               // onTouchTap={this.createNewGame.bind(this)}
             />
             <RaisedButton
               style={style}
               label= 'JOIN GAME'
               primary={true}
-              onTouchTap={this.joinGame.bind(this)}
+              onTouchTap={this.handleOpenJoin.bind(this)}
             />
             <Dialog
               style={LoginStyle}
               title="Please, write your username to enter the Lobby"
-              actions={actions}
+              actions={actionsNew}
               modal={true}
               open={this.state.newGame}
               >
@@ -125,7 +139,7 @@ class Root extends Component {
             <Dialog
               style={LoginStyle}
               title="Insert your Username and Game Code"
-              actions={actions}
+              actions={actionsJoin}
               modal={true}
               open={this.state.open}
               >
@@ -157,7 +171,7 @@ export default createContainer(() => {
   Meteor.subscribe('games');
 
   return {
-    // tasks: Tasks.find({}, { sort: { createdAt: -1 } }).fetch(),
+    games: Games.find({}, { sort: { createdAt: -1 } }).fetch(),
     // incompleteCount: Tasks.find({ checked: { $ne: true } }).count(),
   };
 }, Root);
