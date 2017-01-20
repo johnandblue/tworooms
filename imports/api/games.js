@@ -18,7 +18,6 @@ Meteor.methods({
   'games.insert'(gameCode,player) {
     check(gameCode, Number);
     check(player, String);
-    console.log(player);
     Games.insert({
       gameCode,
       players:[player],
