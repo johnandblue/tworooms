@@ -3,6 +3,8 @@ import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import Dialog from 'material-ui/Dialog';
 import { Card, CardHeader, CardText } from 'material-ui/Card';
+import { createContainer } from 'meteor/react-meteor-data';
+import { Games } from '../api/games.js';
 
 const containerStyle = {
   margin: '0 auto',
@@ -39,10 +41,30 @@ class Lobby extends React.Component {
   //   this.
   // }
 
+  renderPlayers() {
+    let games = this.props.games;
+
+    const currentGame = games.filter(game =>{
+      return (this.props.params.gameCode===game.gameCode);
+    });
+
+
+    if (currentGame[0]) {
+      return currentGame[0].player.map((player) => {
+        console.log(player);
+        return (
+
+        <div key={player._id}>{player}</div>
+
+      )});
+
+    }
+    return null;
+
+  }
 
 
   render () {
-    console.log(this.props);
     return (
       <div style={containerStyle}>
         <div style={{margin: 'auto'}}>
@@ -51,12 +73,16 @@ class Lobby extends React.Component {
             <CardHeader
               title={this.props.params.gameCode}
             />
-            <p>{this.props.params.players}</p>
           </Card>
+          {this.renderPlayers.bind(this)()}
         </div>
       </div>)
 
     }
   }
 
-  export default Lobby;
+  export default createContainer(() => {
+    return {
+      games: Games.find({}, { sort: { createdAt: -1 } }).fetch(),
+    };
+  }, Lobby);
