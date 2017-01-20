@@ -10,7 +10,7 @@ import { Games } from '../api/games.js';
 
 const containerStyle = {
   margin: '0 auto',
-  width: 960,
+  // width: 960,
   padding: 20,
   display: 'flex'
 }
@@ -32,7 +32,13 @@ const style = {
 export default class Root extends Component {
   constructor(){
     super();
-    this.state={open:false, code:''};
+    this.state={
+      open2:false,
+      open:false};
+  }
+
+  handleOpen2 () {
+    this.setState({open2: true});
   }
 
   handleOpen () {
@@ -40,24 +46,17 @@ export default class Root extends Component {
   }
 
   handleClose()  {
-    if (this.state.code.length>0) {
 
-    }
-    this.setState({open: false});
+    this.setState({open: false,open2: false});
 
+    console.log(this.state);
   }
 
   createNewGame() {
     const gameCode = Math.floor(Math.random()*100000);
 
-    // const text = ReactDOM.findDOMNode(this.refs.textInput).value.trim();
 
-    Games.insert({
-      gameCode,
-      createdAt: new Date(), // current time
-      // owner: Meteor.userId(),           // _id of logged in user
-      // username: Meteor.user().username,  // username of logged in user
-    });
+    // const text = ReactDOM.findDOMNode(this.refs.textInput).value.trim();
 
 
     browserHistory.push(`game/${gameCode}`)
@@ -72,11 +71,13 @@ export default class Root extends Component {
 
     const actions = [
         <RaisedButton
+          style={{margin:15}}
           label="Cancel"
           primary={true}
           onTouchTap={this.handleClose.bind(this)}
         />,
         <RaisedButton
+          style={{marginLeft:10, marginRight:10}}
           label="Submit"
           primary={true}
           keyboardFocused={true}
@@ -89,36 +90,69 @@ export default class Root extends Component {
         <div style={{margin:'auto'}}>
           <Card style={LoginStyle}>
             <RaisedButton
+              style={style}
               label= 'NEW GAME'
               primary={true}
-              onTouchTap={this.createNewGame.bind(this)}
-              style={style}
+              onTouchTap={this.handleOpen2.bind(this)}
+              // onTouchTap={this.createNewGame.bind(this)}
             />
             <RaisedButton
-              label= 'JOIN GAME'
-
-              primary={true}
               style={style}
+              label= 'JOIN GAME'
+              primary={true}
               onTouchTap={this.handleOpen.bind(this)}
-              /  >
-              <Dialog
-                title="Please, write your code to enter the Lobby"
-                actions={actions}
-                modal={true}
-                open={this.state.open}
-                >
-                  <TextField
-                    name= "code"
-                    hintText="Code"
-                    floatingLabelText="Insert your code here"
-                    floatingLabelFixed={true}
-                    onChange={(event, code) => this.setState({code})}
-                  /><br />
-                </Dialog>
-              </Card>
+            />
+            <Dialog
+              style={LoginStyle}
+              title="Please, write your code and username to enter the Lobby"
+              actions={actions}
+              modal={true}
+              open={this.state.open2}
+            >
+              <TextField
+                name= "code"
+                hintText="Code"
+                floatingLabelText="Insert your code here"
+                floatingLabelFixed={true}
+                onChange={(event, code) => this.setState({code})}
+              />
+              <br />
+              <TextField
+                name= "player"
+                hintText="Player"
+                floatingLabelText="Insert your name here"
+                floatingLabelFixed={true}
+                onChange={(event, player) => this.setState({player})}
+              />
+            </Dialog>
 
-            </div>
-          </div>
-        );
-      }
-    }
+            <Dialog
+              style={LoginStyle}
+              title="2"
+              actions={actions}
+              modal={true}
+              open={this.state.open}
+            >
+              <TextField
+                name= "code"
+                hintText="Code"
+                floatingLabelText="Insert your code here"
+                floatingLabelFixed={true}
+                onChange={(event, code) => this.setState({code})}
+              />
+              <br />
+              <TextField
+                name= "player"
+                hintText="Player"
+                floatingLabelText="Insert your name here"
+                floatingLabelFixed={true}
+                onChange={(event, player) => this.setState({player})}
+              />
+            </Dialog>
+
+          </Card>
+        </div>
+      </div>
+    );
+  }
+}
