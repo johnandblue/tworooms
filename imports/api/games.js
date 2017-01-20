@@ -6,14 +6,26 @@ import { check } from 'meteor/check';
 export const Games = new Mongo.Collection('games');
 
 Meteor.methods({
-  'games.insert'(text) {
-    check(text, String);
+  'games.insert'(gameCode,player) {
+    check(gameCode, String);
+    check(player, String);
 
     Games.insert({
-      text,
+      gameCode,
+      players:[player],
       createdAt: new Date(),
-      // owner: this.userId,
-      // username: Meteor.users.findOne(this.userId).username,
+
+    });
+  },
+  'games.addPlayer'(gameCode,player) {
+    check(gameCode, String);
+    check(player, String);
+
+    Games.insert({
+      gameCode,
+      players:[player],
+      createdAt: new Date(),
+
     });
   },
 });
