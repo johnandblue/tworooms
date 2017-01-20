@@ -3,7 +3,20 @@ import { Mongo } from 'meteor/mongo';
 import { check } from 'meteor/check';
 
 
-export const Games = new Mongo.Collection('games');
+export const Games = new Meteor.Collection('games');
+
+// GameSchema = new SimpleSchema({
+//   "code": {
+//     type: String,
+//     label: "gameCode"
+//   },
+//   "code.players": {
+//     type: Array,
+//     label: "players"
+//   }
+// });
+//
+// Games.attachSchema(GameSchema);
 
 Meteor.methods({
   'games.insert'(text) {
@@ -12,8 +25,9 @@ Meteor.methods({
     Games.insert({
       text,
       createdAt: new Date(),
-      // owner: this.userId,
-      // username: Meteor.users.findOne(this.userId).username,
+      players: [
+
+      ]
     });
-  },
+  }
 });

@@ -20,11 +20,11 @@ export default class App extends Component {
 
   render() {
     return (
-      <div className="container">
-
+      <div>
         <header>
           <AppBar
-          style={style}/>
+            title="Two Rooms and a Boom"
+            style={style}/>
         </header>
         {this.props.children}
       </div>
