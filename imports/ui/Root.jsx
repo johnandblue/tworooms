@@ -14,7 +14,7 @@ import { createContainer } from 'meteor/react-meteor-data';
 const containerStyle = {
   margin: '0 auto',
   // width: 960,
-  padding: 20,
+  // padding: 20,
   display: 'flex'
 }
 
