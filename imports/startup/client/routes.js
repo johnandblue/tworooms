@@ -8,6 +8,7 @@ injectTapEventPlugin();
 
 import App from '../../ui/App.jsx';
 import Lobby from '../../ui/Lobby.jsx';
+import PreGame from '../../ui/PreGame.jsx';
 import Root from '../../ui/Root.jsx';
 import PlayerCard from '../../ui/PlayerCard.jsx';
 
@@ -17,7 +18,7 @@ export const renderRoutes = () => (
       <Route path="/" component={App}>
         <IndexRoute component={Root}/>
         <Route path="/game/:gameCode" component={Lobby} />
-        <Route path="/test" component={PlayerCard} />
+        <Route path="/pregame/:gameCode" component={PreGame} />
       </Route>
     </Router>
   </MuiThemeProvider>
