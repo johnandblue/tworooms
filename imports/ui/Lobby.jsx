@@ -70,7 +70,7 @@ const iconButtonElement = (
       let games = this.props.games;
 
       const currentGame = games.filter(game =>{
-        console.log(this.props.games);
+
         return (this.props.params.gameCode===game.gameCode);
       });
 
