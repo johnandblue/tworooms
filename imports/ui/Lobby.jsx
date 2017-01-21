@@ -7,9 +7,31 @@ import {List, ListItem} from 'material-ui/List';
 import ActionGrade from 'material-ui/svg-icons/action/grade';
 import Divider from 'material-ui/Divider';
 import Avatar from 'material-ui/Avatar';
-import {pinkA200, transparent} from 'material-ui/styles/colors';
+import { grey400, pinkA200, transparent} from 'material-ui/styles/colors';
+import IconButton from 'material-ui/IconButton';
+import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
+import IconMenu from 'material-ui/IconMenu';
+import MenuItem from 'material-ui/MenuItem';
 import { createContainer } from 'meteor/react-meteor-data';
 import { Games } from '../api/games.js';
+
+const iconButtonElement = (
+  <IconButton
+    touch={true}
+    tooltip="more"
+    tooltipPosition="bottom-left"
+  >
+    <MoreVertIcon color={grey400} />
+  </IconButton>
+);
+
+const rightIconMenu = (
+  <IconMenu iconButtonElement={iconButtonElement}>
+    <MenuItem>Reply</MenuItem>
+    <MenuItem>Forward</MenuItem>
+    <MenuItem>Delete</MenuItem>
+  </IconMenu>
+);
 
 const containerStyle = {
  margin: '0 auto',
@@ -75,6 +97,7 @@ render () {
             <ListItem
               primaryText="Code"
               secondaryText={this.props.params.gameCode}
+              rightIconButton={rightIconMenu}
               leftIcon={<ActionGrade color={pinkA200} />}
             />
           </List>
