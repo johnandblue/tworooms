@@ -6,3 +6,8 @@ body {
 
 
 }
+.card-container{
+  background-repeat: no-repeat;
+  background-size: auto;
+  height: 400px;
+}
