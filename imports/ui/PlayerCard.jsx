@@ -11,31 +11,29 @@ class PlayerCard extends React.Component {
   constructor(){
     super()
     this.state={
-      card:'',
+      card:false,
     }
   }
   renderCard(){
-
-      if (this.state.card) {
-        const imageSource=`../../images/${this.state.card}.png`;
-        return(
-        <div>
-        <img src={imageSource}/>
+    const imageSource=`../../images/${this.state.card}.png`;
+      return (
+        <div style={{display:'flex', margin:'auto'}}>
+          <img src={imageSource}/>
         </div>)
-      } else {
-        return null;
-      }
     }
+  
 
 
     shuffleCards(){
-      if (!this.state.card) {
-        Meteor.call('games.shuffleCards', '89482');
-      }
-      this.setState({
-        card:card.cardNumber,
-      });
 
+
+      if (!this.state.card) {
+        Meteor.call('games.shuffleCards',this.props.gameCode);
+        const num =card.cardNumber;
+        this.setState({
+          card:num,
+        });
+      }
     }
 
     render () {
@@ -44,11 +42,10 @@ class PlayerCard extends React.Component {
           <RaisedButton
             onTouchTap={this.shuffleCards.bind(this)}
             style={{margin: 'auto', display: 'flex', width: '25%', height: 60}}
-            label="GetCard"
+            label="Show Card"
             primary={true}
           />
           {this.renderCard.bind(this)()}
-
         </div>)
       }
     }
@@ -58,6 +55,5 @@ class PlayerCard extends React.Component {
 
       return {
         games: Games.find({}, { sort: { createdAt: -1 } }).fetch(),
-        // incompleteCount: Tasks.find({ checked: { $ne: true } }).count(),
       };
     }, PlayerCard);

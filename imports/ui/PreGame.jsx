@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react'
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import Dialog from 'material-ui/Dialog';
-import { Card, CardHeader, CardText } from 'material-ui/Card';
+import { Card, CardMedia, CardTitle, CardHeader, CardText } from 'material-ui/Card';
 import {List, ListItem} from 'material-ui/List';
 import ActionGrade from 'material-ui/svg-icons/action/grade';
 import Divider from 'material-ui/Divider';
@@ -14,7 +14,7 @@ import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
 import { createContainer } from 'meteor/react-meteor-data';
 import { Games } from '../api/games.js';
-
+import PlayerCard from './PlayerCard';
 const iconButtonElement = (
   <IconButton
     touch={true}
@@ -138,8 +138,29 @@ class PreGame extends React.Component {
                     {this.renderPlayers.bind(this)(2)}
                   </List>
               </div>
+
             </div>
           </Card>
+          <div>
+            <Card>
+              <CardHeader
+                style={{textAlign: 'center'}}
+                title=''
+              />
+              <CardMedia style={{margin: 'auto'}}>
+                <PlayerCard
+                  style={{margin: 'auto'}}
+                  gameCode={this.props.params.gameCode}/>
+              </CardMedia>
+              <CardHeader
+                actAsExpander={true}
+                showExpandableButton={true}
+              />
+              <CardText expandable={true}>
+                El texto de la Carta
+              </CardText>
+            </Card>
+          </div>
 
           <div style={{margin: 'auto' , display: 'flex'}}>
             <RaisedButton

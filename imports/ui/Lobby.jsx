@@ -15,6 +15,7 @@ import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
 import { createContainer } from 'meteor/react-meteor-data';
 import { Games } from '../api/games.js';
+import { Meteor } from 'meteor/meteor';
 
 const iconButtonElement = (
   <IconButton
@@ -87,8 +88,8 @@ const iconButtonElement = (
   }
 
   goToPregame () {
-
-    browserHistory.push(`pregame/${this.props.params.gameCode}`)
+    Meteor.call('games.startGame',this.props.params.gameCode);
+    browserHistory.push(`/pregame/${this.props.params.gameCode}`)
   }
 
 
@@ -121,7 +122,7 @@ const iconButtonElement = (
             <RaisedButton
 
               style={{margin: 'auto', display: 'flex', width: '100%'}}
-              label="Start Game"
+              label="Go to your Room"
               onTouchTap={() => this.goToPregame()}
               primary={true}
             />

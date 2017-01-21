@@ -6,7 +6,6 @@ import {card} from './card';
 export const Games = new Meteor.Collection('games');
 let gameCards={};
 // const gameCode = Math.floor(Math.random()*100000);
-gameCards['89482']=[1,2,3];
 if (Meteor.isServer) {
   // This code only runs on the server
 
@@ -37,7 +36,7 @@ Meteor.methods({
     for (let i = 0; i < result.player.length; i++) {
         cards.push(i);
     }
-    cards.gameCode=cards;
+    gameCards[gameCode]=cards;
 
   },
   'games.shuffleCards'(gameCode) {
@@ -45,6 +44,13 @@ Meteor.methods({
     const result=(Games.findOne({gameCode:gameCode}));
     const currentCards=gameCards[gameCode];
     const shuffledCards=currentCards.splice(Math.floor(Math.random()*currentCards.length),1)[0] ;
+    if (shuffledCards===0) {
+      card.cardNumber=0;
+    }
+    if (shuffledCards===1) {
+      card.cardNumber=1;
+    }
+
     if (shuffledCards>1 && shuffledCards%2===0) {
       card.cardNumber=2;
     }
