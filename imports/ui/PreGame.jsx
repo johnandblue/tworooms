@@ -121,16 +121,20 @@ class PreGame extends React.Component {
                       primaryText="Room 1"
                       // leftIcon={<ActionGrade color={pinkA200} />}
                     />
+                    <Divider />
                     {this.renderPlayers.bind(this)(1)}
                   </List>
               </div>
 
-              <div style={{flex: 1}}>
+              <div style={{flex:0, width:1}}></div>
+
+              <div style={{marginBottom: 5, borderLeft: '1px solid #cf8d8d', flex: 1}}>
                   <List>
                     <ListItem
                       primaryText="Room 2"
                       // leftIcon={<ActionGrade color={pinkA200} />}
                     />
+                    <Divider />
                     {this.renderPlayers.bind(this)(2)}
                   </List>
               </div>
