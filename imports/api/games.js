@@ -34,7 +34,7 @@ Meteor.methods({
       gameCode,
       player:[{name:player}],
       createdAt: new Date(),
-      gameStatus: 'start'
+      gameStatus: 'waitingForPlayers'
     });
 
     return gameCode;
@@ -44,7 +44,7 @@ Meteor.methods({
     const result=(Games.findOne({gameCode:gameCode}));
     Games.update(result._id, { $push: { player: { name: player } } });
   },
-  'games.startGame'(gameCode) {
+  'games.shuffle'(gameCode) {
     check(gameCode, String);
     const game=(Games.findOne({gameCode:gameCode}));
     let players = game.player;
@@ -84,23 +84,10 @@ Meteor.methods({
     Games.update(game._id, { $set: { player: players, gameStatus:'preGame' } });
   },
 
-  'games.shuffleCards'(gameCode) {
+  'games.startGame'(gameCode) {
     check(gameCode, String);
-    const result=(Games.findOne({gameCode:gameCode}));
-    const currentCards=gameCards[gameCode];
-    const shuffledCards=currentCards.splice(Math.floor(Math.random()*currentCards.length),1)[0] ;
-    if (shuffledCards===0) {
-      card.cardNumber=0;
-    }
-    if (shuffledCards===1) {
-      card.cardNumber=1;
-    }
+    const game=(Games.findOne({gameCode:gameCode}));
+    Games.update(game._id, { $set: { gameStatus:'game' } });
 
-    if (shuffledCards>1 && shuffledCards%2===0) {
-      card.cardNumber=2;
-    }
-    if (shuffledCards>1 && shuffledCards%2!==0) {
-      card.cardNumber=3;
-    }
   }
 });

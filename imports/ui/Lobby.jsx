@@ -79,7 +79,7 @@ class Lobby extends React.Component {
   }
 
   goToPregame () {
-    Meteor.call('games.startGame',this.props.params.gameCode);
+    Meteor.call('games.shuffle',this.props.params.gameCode);
     browserHistory.push(`/pregame/${this.props.params.gameCode}`)
   }
 
@@ -102,7 +102,7 @@ class Lobby extends React.Component {
         </div>
       )
     }
-    return <div style={{padding:20, color:'white', backgroundColor:'black'}}>Waiting for other players to join the game...</div>;
+    return <div style={{padding:20, color:'white', backgroundColor:'red'}}>Waiting for other players to join the game...</div>;
 
   }
 

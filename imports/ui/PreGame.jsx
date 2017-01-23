@@ -15,6 +15,8 @@ import MenuItem from 'material-ui/MenuItem';
 import { createContainer } from 'meteor/react-meteor-data';
 import { Games } from '../api/games.js';
 import PlayerCard from './PlayerCard';
+import {browserHistory } from 'react-router';
+import { Meteor } from 'meteor/meteor';
 
 const iconButtonElement = (
   <IconButton
@@ -54,12 +56,29 @@ const style = {
 
 class PreGame extends React.Component {
 
+  componentDidUpdate(prevProps, prevState) {
+
+    let game = this.props.game;
+    console.log(game);
+    if (game.gameStatus==='game') {
+      browserHistory.push(`/game/${this.props.params.gameCode}`)
+    }
+  }
+  goToGame () {
+    Meteor.call('games.startGame',this.props.params.gameCode);
+    browserHistory.push(`/game/${this.props.params.gameCode}`)
+  }
+
+  //======================================================
+  // RENDERING
+  //======================================================
   renderPlayerFeatures(){
     const admin =localStorage.getItem('admin');
     if (admin) {
       return (
         <div style={{margin: 'auto' , display: 'flex'}}>
           <RaisedButton
+            onTouchTap={() => this.goToGame()}
             style={{margin: 'auto', display: 'flex', width: '100%'}}
             label="Start Game"
             primary={true}
@@ -67,7 +86,7 @@ class PreGame extends React.Component {
         </div>
       )
     }
-    return <div style={{padding:20, color:'white', backgroundColor:'black'}}>Waiting for admin to start game...</div>;
+    return <div style={{padding:20, color:'white', backgroundColor:'red'}}>Waiting for admin to start game...</div>;
 
   }
 

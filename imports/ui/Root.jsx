@@ -62,7 +62,7 @@ class Root extends Component {
         localStorage.setItem('name', this.state.playerName);
         localStorage.setItem('gameCode', gameCode);
         localStorage.setItem('admin', true)
-        browserHistory.push(`game/${gameCode}`);
+        browserHistory.push(`lobby/${gameCode}`);
       } else {
         alert('Something bad happened.');
       }
@@ -73,7 +73,7 @@ class Root extends Component {
       if (!err) {
         localStorage.setItem('name', this.state.playerName);
         localStorage.setItem('gameCode', this.state.code);
-        browserHistory.push(`game/${this.state.code}`)
+        browserHistory.push(`lobby/${this.state.code}`)
       } else {
         alert('Something bad happened.');
       }

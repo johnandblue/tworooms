@@ -24,7 +24,7 @@ export default class PlayerCard extends React.Component {
     const imageSource=`../../images/${this.props.card}.png`;
     return (
       <div style={{display:'flex', margin:'auto'}}>
-        <img src={imageSource}/>
+        <img style={{margin:'auto'}} src={imageSource}/>
       </div>
     )
   }
