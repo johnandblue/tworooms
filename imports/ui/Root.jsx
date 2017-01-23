@@ -61,6 +61,7 @@ class Root extends Component {
       if (!err) {
         localStorage.setItem('name', this.state.playerName);
         localStorage.setItem('gameCode', gameCode);
+        localStorage.setItem('admin', true)
         browserHistory.push(`game/${gameCode}`);
       } else {
         alert('Something bad happened.');

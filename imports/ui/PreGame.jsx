@@ -55,29 +55,25 @@ const style = {
 class PreGame extends React.Component {
 
   renderPlayers(room) {
-    let games = this.props.games;
-    const currentGame = games.filter(game =>{
-      return (this.props.params.gameCode===game.gameCode);
-    });
+    if (!this.props.game.player) return null;
 
-    // <ListItem
-    //   primaryText={playersRoom}
-    //   leftAvatar={<Avatar src="https://storage.googleapis.com/material-icons/external-assets/v4/icons/svg/ic_face_black_24px.svg" />}
-    // />
-
-    return null;
+    return this.props.game.player
+      .filter(player => player.room === room)
+      .map(player => {
+        const you = player.name === this.props.name ? ' (you)': '';
+        return (
+          <ListItem
+            key={player.name}
+            primaryText={`${player.name}${you}`}
+            leftAvatar={<Avatar src="https://storage.googleapis.com/material-icons/external-assets/v4/icons/svg/ic_face_black_24px.svg" />}
+          />
+        )
+      });
   }
-
-
-
 
   render () {
 
-    let games = this.props.games;
-    const currentGame = games.filter(game =>{
-      // console.log(this.props.games);
-      return (this.props.params.gameCode===game.gameCode);
-    });
+    const game = this.props.game;
 
     return (
       <div style={containerStyle}>
@@ -101,7 +97,7 @@ class PreGame extends React.Component {
                       // leftIcon={<ActionGrade color={pinkA200} />}
                     />
                     <Divider />
-                    {this.renderPlayers.bind(this)(1)}
+                    {this.renderPlayers(1)}
                   </List>
               </div>
 
@@ -114,7 +110,7 @@ class PreGame extends React.Component {
                       // leftIcon={<ActionGrade color={pinkA200} />}
                     />
                     <Divider />
-                    {this.renderPlayers.bind(this)(2)}
+                    {this.renderPlayers(2)}
                   </List>
               </div>
 
@@ -128,7 +124,7 @@ class PreGame extends React.Component {
               <CardMedia style={{margin: 'auto'}}>
                 <PlayerCard
                   style={{margin: 'auto'}}
-                  gameCode={this.props.params.gameCode}/>
+                  card={this.props.currentPlayer.card}/>
               </CardMedia>
               <CardHeader
                 actAsExpander={true}
@@ -153,8 +149,17 @@ class PreGame extends React.Component {
   }
 }
 
-export default createContainer(() => {
+export default createContainer(ownProps => {
+  const gameCode = ownProps.params.gameCode;
+  const gameFetch = Games.find({gameCode: gameCode}).fetch();
+  const game = gameFetch.length > 0 ? gameFetch[0] : {};
+  const currentPlayer = game.player ?
+    game.player.find(player =>  player.name === localStorage.getItem('name')) :
+    {};
+
   return {
-    games: Games.find({}, { sort: { createdAt: -1 } }).fetch(),
+    name: localStorage.getItem('name'),
+    game,
+    currentPlayer,
   };
 }, PreGame);
