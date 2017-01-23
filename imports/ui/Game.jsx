@@ -1,8 +1,13 @@
 import React, { PropTypes } from 'react'
+import { Meteor } from 'meteor/meteor';
 
 class Game extends React.Component {
-  renderPlayerFeatures(){
+  startCountDown(){
+    Meteor.call('games.startGame',this.props.params.gameCode);
+  }
 
+
+  renderPlayerFeatures(){
     const admin =localStorage.getItem('admin');
     if (admin) {
       return (
@@ -10,21 +15,21 @@ class Game extends React.Component {
           <RaisedButton
             style={{margin: 'auto', display: 'flex', width: '100%'}}
             label="Go to your Room"
-            onTouchTap={() => this.goToPregame()}
+            onTouchTap={() => this.startCountDown()}
             primary={true}
           />
         </div>
       )
     }
-    return <div style={{padding:20, color:'white', backgroundColor:'red'}}>Waiting for other players to join the game...</div>;
+    return null;
 
   }
+
+
   render () {
-  return <div>
-
-
-    {this.renderPlayerFeatures()}
-  </div>
+    return <div>
+      {this.renderPlayerFeatures()}
+    </div>
   }
 }
 
