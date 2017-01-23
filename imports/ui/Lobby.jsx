@@ -55,6 +55,16 @@ const style = {
 
 class Lobby extends React.Component {
 
+  componentDidUpdate(prevProps, prevState) {
+    let games = this.props.games;
+    const currentGame = games.filter(game =>{
+      return (this.props.params.gameCode===game.gameCode);
+    });
+    if (currentGame[0].gameStatus==='preGame') {
+      browserHistory.push(`/pregame/${this.props.params.gameCode}`)
+    }
+  }
+
   shuffle (playersArray) {
 
     var i = 0
@@ -76,6 +86,25 @@ class Lobby extends React.Component {
   //======================================================
   // RENDERING
   //======================================================
+
+  renderPlayerFeatures(){
+
+    const admin =localStorage.getItem('admin');
+    if (admin) {
+      return (
+        <div style={{margin: 'auto' , display: 'flex'}}>
+          <RaisedButton
+            style={{margin: 'auto', display: 'flex', width: '100%'}}
+            label="Go to your Room"
+            onTouchTap={() => this.goToPregame()}
+            primary={true}
+          />
+        </div>
+      )
+    }
+    return <div style={{padding:20, color:'white', backgroundColor:'black'}}>Waiting for other players to join the game...</div>;
+
+  }
 
   renderPlayers() {
     let games = this.props.games;
@@ -101,11 +130,6 @@ class Lobby extends React.Component {
 
   render () {
 
-    let games = this.props.games;
-    const currentGame = games.filter(game =>{
-      // console.log(this.props.games);
-      return (this.props.params.gameCode===game.gameCode);
-    });
 
     return (
       <div style={containerStyle}>
@@ -124,15 +148,7 @@ class Lobby extends React.Component {
               {this.renderPlayers()}
             </List>
           </Card>
-          <div style={{margin: 'auto' , display: 'flex'}}>
-            <RaisedButton
-
-              style={{margin: 'auto', display: 'flex', width: '100%'}}
-              label="Go to your Room"
-              onTouchTap={() => this.goToPregame()}
-              primary={true}
-            />
-          </div>
+          {this.renderPlayerFeatures()}
         </div>
       </div>
     )

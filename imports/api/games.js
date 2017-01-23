@@ -34,6 +34,7 @@ Meteor.methods({
       gameCode,
       player:[{name:player}],
       createdAt: new Date(),
+      gameStatus: 'start'
     });
 
     return gameCode;
@@ -80,8 +81,9 @@ Meteor.methods({
     })
 
     // Update game
-    Games.update(game._id, { $set: { player: players } });
+    Games.update(game._id, { $set: { player: players, gameStatus:'preGame' } });
   },
+
   'games.shuffleCards'(gameCode) {
     check(gameCode, String);
     const result=(Games.findOne({gameCode:gameCode}));

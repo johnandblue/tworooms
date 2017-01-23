@@ -54,6 +54,23 @@ const style = {
 
 class PreGame extends React.Component {
 
+  renderPlayerFeatures(){
+    const admin =localStorage.getItem('admin');
+    if (admin) {
+      return (
+        <div style={{margin: 'auto' , display: 'flex'}}>
+          <RaisedButton
+            style={{margin: 'auto', display: 'flex', width: '100%'}}
+            label="Start Game"
+            primary={true}
+          />
+        </div>
+      )
+    }
+    return <div style={{padding:20, color:'white', backgroundColor:'black'}}>Waiting for admin to start game...</div>;
+
+  }
+
   renderPlayers(room) {
     if (!this.props.game.player) return null;
 
@@ -135,14 +152,7 @@ class PreGame extends React.Component {
               </CardText>
             </Card>
           </div>
-
-          <div style={{margin: 'auto' , display: 'flex'}}>
-            <RaisedButton
-              style={{margin: 'auto', display: 'flex', width: '100%'}}
-              label="Start Game"
-              primary={true}
-            />
-          </div>
+          {this.renderPlayerFeatures()}
         </div>
       </div>
     )
