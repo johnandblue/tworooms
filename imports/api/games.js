@@ -80,7 +80,7 @@ Meteor.methods({
     })
 
     // Update game
-    Games.update(game._id, { player: players });
+    Games.update(game._id, { $set: { player: players } });
   },
   'games.shuffleCards'(gameCode) {
     check(gameCode, String);
