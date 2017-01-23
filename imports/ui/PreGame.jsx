@@ -57,9 +57,7 @@ const style = {
 class PreGame extends React.Component {
 
   componentDidUpdate(prevProps, prevState) {
-
     let game = this.props.game;
-    console.log(game);
     if (game.gameStatus==='game') {
       browserHistory.push(`/game/${this.props.params.gameCode}`)
     }
@@ -80,7 +78,7 @@ class PreGame extends React.Component {
           <RaisedButton
             onTouchTap={() => this.goToGame()}
             style={{margin: 'auto', display: 'flex', width: '100%'}}
-            label="Start Game"
+            label="Start Round"
             primary={true}
           />
         </div>

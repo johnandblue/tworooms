@@ -81,7 +81,7 @@ Meteor.methods({
     })
 
     // Update game
-    Games.update(game._id, { $set: { player: players, gameStatus:'preGame' } });
+    Games.update(game._id, { $set: { player: players, gameStatus:'preGame' } }) ;
   },
 
   'games.startGame'(gameCode) {
@@ -90,7 +90,7 @@ Meteor.methods({
     Games.update(game._id, { $set: { gameStatus:'game' } });
 
   },
-  'games.countDown'(gameCode) {
+  'games.startCountDown'(gameCode) {
     check(gameCode, String);
     const game=(Games.findOne({gameCode:gameCode}));
     Games.update(game._id, { $set: { gameStatus:'countDown' } });
