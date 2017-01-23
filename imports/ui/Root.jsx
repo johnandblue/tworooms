@@ -58,13 +58,25 @@ class Root extends Component {
 
   createNewGame() {
     Meteor.call('games.insert', this.state.playerName, (err, gameCode) => {
-      if (!err) browserHistory.push(`game/${gameCode}`)
-      else alert('Something bad happened.')
+      if (!err) {
+        localStorage.setItem('name', this.state.playerName);
+        localStorage.setItem('gameCode', gameCode);
+        browserHistory.push(`game/${gameCode}`);
+      } else {
+        alert('Something bad happened.');
+      }
     });
   }
   joinGame(){
-    Meteor.call('games.addPlayer', this.state.code, this.state.playerName);
-    browserHistory.push(`game/${this.state.code}`)
+    Meteor.call('games.addPlayer', this.state.code, this.state.playerName, (err) => {
+      if (!err) {
+        localStorage.setItem('name', this.state.playerName);
+        localStorage.setItem('gameCode', this.state.code);
+        browserHistory.push(`game/${this.state.code}`)
+      } else {
+        alert('Something bad happened.');
+      }
+    });
   }
 
 

@@ -23,56 +23,37 @@ const iconButtonElement = (
     tooltip="more"
     tooltipPosition="bottom-left"
     >
-      <MoreVertIcon color={grey400} />
-    </IconButton>
-  );
+    <MoreVertIcon color={grey400} />
+  </IconButton>
+);
 
-  const rightIconMenu = (
-    <IconMenu iconButtonElement={iconButtonElement}>
-      <MenuItem>Change Game</MenuItem>
-      <MenuItem>Exit Game</MenuItem>
-    </IconMenu>
-  );
+const rightIconMenu = (
+  <IconMenu iconButtonElement={iconButtonElement}>
+    <MenuItem>Change Game</MenuItem>
+    <MenuItem>Exit Game</MenuItem>
+  </IconMenu>
+);
 
-  const containerStyle = {
-    margin: '0 auto',
-    width: '100%',
-    // padding: 20,
-    display: 'flex'
-  }
+const containerStyle = {
+  margin: '0 auto',
+  width: '100%',
+  // padding: 20,
+  display: 'flex'
+}
 
-  const CardStyle={
-    padding: 40,
-    fontSize: 20,
-    margin: 'auto',
-    textAlign: 'center',
-  }
+const CardStyle={
+  padding: 40,
+  fontSize: 20,
+  margin: 'auto',
+  textAlign: 'center',
+}
 
-  const style = {
-    margin:15,
-  };
+const style = {
+  margin:15,
+};
 
 
-  class Lobby extends React.Component {
-
-    renderPlayers() {
-      let games = this.props.games;
-      const currentGame = games.filter(game =>{
-        return (this.props.params.gameCode===game.gameCode);
-      });
-
-      if (currentGame[0]) {
-        return currentGame[0].player.map((player, i) =>
-        <div key={i}>
-          <ListItem
-            primaryText={player.name}
-            rightAvatar={<Avatar src="https://storage.googleapis.com/material-icons/external-assets/v4/icons/svg/ic_face_black_24px.svg" />}
-          />
-        </div>
-      );
-    }
-    return null;
-  }
+class Lobby extends React.Component {
 
   shuffle (playersArray) {
 
@@ -92,6 +73,31 @@ const iconButtonElement = (
     browserHistory.push(`/pregame/${this.props.params.gameCode}`)
   }
 
+  //======================================================
+  // RENDERING
+  //======================================================
+
+  renderPlayers() {
+    let games = this.props.games;
+    const currentGame = games.filter(game =>{
+      return (this.props.params.gameCode===game.gameCode);
+    });
+
+    if (currentGame[0]) {
+      return currentGame[0].player.map((player, i) => {
+        const you = player.name === this.props.name ? ' (you)': '';
+        return (
+          <div key={i}>
+            <ListItem
+              primaryText={`${player.name}${you}`}
+              rightAvatar={<Avatar src="https://storage.googleapis.com/material-icons/external-assets/v4/icons/svg/ic_face_black_24px.svg" />}
+            />
+          </div>
+        )
+      });
+    }
+    return null;
+  }
 
   render () {
 
@@ -115,7 +121,7 @@ const iconButtonElement = (
             </List>
             <Divider />
             <List>
-              {this.renderPlayers.bind(this)()}
+              {this.renderPlayers()}
             </List>
           </Card>
           <div style={{margin: 'auto' , display: 'flex'}}>
@@ -135,6 +141,8 @@ const iconButtonElement = (
 
 export default createContainer(() => {
   return {
+    name: localStorage.getItem('name'),
+    gameCode: localStorage.getItem('gameCode'),
     games: Games.find({}, { sort: { createdAt: -1 } }).fetch(),
   };
 }, Lobby);
