@@ -1,5 +1,7 @@
 import React, { PropTypes } from 'react'
 import { Meteor } from 'meteor/meteor';
+import Timer from 'react-countdown-clock';
+
 
 class Game extends React.Component {
   startCountDown(){
