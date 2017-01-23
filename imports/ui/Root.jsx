@@ -57,10 +57,10 @@ class Root extends Component {
   }
 
   createNewGame() {
-
-    const gameCode = String(Math.floor(Math.random()*100000));
-    Meteor.call('games.insert', gameCode, this.state.playerName);
-    browserHistory.push(`game/${gameCode}`)
+    Meteor.call('games.insert', this.state.playerName, (err, gameCode) => {
+      if (!err) browserHistory.push(`game/${gameCode}`)
+      else alert('Something bad happened.')
+    });
   }
   joinGame(){
     Meteor.call('games.addPlayer', this.state.code, this.state.playerName);

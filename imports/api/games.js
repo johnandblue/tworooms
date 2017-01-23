@@ -27,14 +27,16 @@ function shuffle (playersArray) {
 }
 
 Meteor.methods({
-  'games.insert'(gameCode, player) {
-    check(gameCode, String);
+  'games.insert'(player) {
+    const gameCode = String(Math.floor(Math.random()*100000));
     check(player, String);
     Games.insert({
       gameCode,
       player:[{name:player}],
       createdAt: new Date(),
     });
+
+    return gameCode;
   },
   'games.addPlayer'(gameCode, player) {
     check(player, String);
