@@ -89,5 +89,11 @@ Meteor.methods({
     const game=(Games.findOne({gameCode:gameCode}));
     Games.update(game._id, { $set: { gameStatus:'game' } });
 
+  },
+  'games.countDown'(gameCode) {
+    check(gameCode, String);
+    const game=(Games.findOne({gameCode:gameCode}));
+    Games.update(game._id, { $set: { gameStatus:'countDown' } });
+
   }
 });
