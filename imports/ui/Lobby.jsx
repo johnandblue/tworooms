@@ -65,7 +65,7 @@ const iconButtonElement = (
         return currentGame[0].player.map((player, i) =>
         <div key={i}>
           <ListItem
-            primaryText={player}
+            primaryText={player.name}
             rightAvatar={<Avatar src="https://storage.googleapis.com/material-icons/external-assets/v4/icons/svg/ic_face_black_24px.svg" />}
           />
         </div>

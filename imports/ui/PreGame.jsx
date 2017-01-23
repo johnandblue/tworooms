@@ -15,6 +15,7 @@ import MenuItem from 'material-ui/MenuItem';
 import { createContainer } from 'meteor/react-meteor-data';
 import { Games } from '../api/games.js';
 import PlayerCard from './PlayerCard';
+
 const iconButtonElement = (
   <IconButton
     touch={true}
@@ -58,38 +59,16 @@ class PreGame extends React.Component {
     const currentGame = games.filter(game =>{
       return (this.props.params.gameCode===game.gameCode);
     });
-    if (currentGame[0]) {
-      this.shuffle (currentGame[0].player);
-      const currentPlayers = currentGame[0].player;
-      const index = Math.floor(currentPlayers.length / 2)
-      const room1 = currentPlayers.slice(0, index)
-      const room2 = currentPlayers.slice(index)
-      let selRoom;
-      if (room === 1) selRoom = room1;
-      if (room === 2) selRoom = room2;
-      return selRoom.map((playersRoom, i) =>
-        <div key={i}>
-          <ListItem
-            primaryText={playersRoom}
-            leftAvatar={<Avatar src="https://storage.googleapis.com/material-icons/external-assets/v4/icons/svg/ic_face_black_24px.svg" />}
-          />
-        </div>
-      );
-    }
+
+    // <ListItem
+    //   primaryText={playersRoom}
+    //   leftAvatar={<Avatar src="https://storage.googleapis.com/material-icons/external-assets/v4/icons/svg/ic_face_black_24px.svg" />}
+    // />
+
     return null;
   }
 
-  shuffle (playersArray) {
-    var i = 0
-    var j = 0
-    var temp = null
-    for (i = playersArray.length - 1; i > 0; i -= 1) {
-      j = Math.floor(Math.random() * (i + 1))
-      temp = playersArray[i]
-      playersArray[i] = playersArray[j]
-      playersArray[j] = temp
-    }
-  }
+
 
 
   render () {
@@ -144,7 +123,6 @@ class PreGame extends React.Component {
           <div>
             <Card>
               <CardHeader
-                style={{textAlign: 'center'}}
                 title=''
               />
               <CardMedia style={{margin: 'auto'}}>
