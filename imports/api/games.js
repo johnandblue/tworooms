@@ -9,6 +9,7 @@ export const Games = new Meteor.Collection('games');
 
 if (Meteor.isServer) {
   // This code only runs on the server
+
   Meteor.publish('games', function gamesPublication() {
     return Games.find();
   });
@@ -28,6 +29,7 @@ Meteor.methods({
     check(gameCode, String);
     check(player, String);
     const res=(Games.findOne({gameCode:gameCode}));
+
     Games.update(res._id, { $push: { player: player } });
   }
 });

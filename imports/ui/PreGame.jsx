@@ -1,9 +1,8 @@
 import React, { PropTypes } from 'react'
-import {browserHistory } from 'react-router';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import Dialog from 'material-ui/Dialog';
-import { Card, CardHeader, CardText } from 'material-ui/Card';
+import { Card, CardMedia, CardTitle, CardHeader, CardText } from 'material-ui/Card';
 import {List, ListItem} from 'material-ui/List';
 import ActionGrade from 'material-ui/svg-icons/action/grade';
 import Divider from 'material-ui/Divider';
@@ -52,20 +51,27 @@ const style = {
 };
 
 
-class Lobby extends React.Component {
+class PreGame extends React.Component {
 
-  renderPlayers() {
+  renderPlayers(room) {
     let games = this.props.games;
     const currentGame = games.filter(game =>{
       return (this.props.params.gameCode===game.gameCode);
     });
-
     if (currentGame[0]) {
-      return currentGame[0].player.map((player, i) =>
+      this.shuffle (currentGame[0].player);
+      const currentPlayers = currentGame[0].player;
+      const index = Math.floor(currentPlayers.length / 2)
+      const room1 = currentPlayers.slice(0, index)
+      const room2 = currentPlayers.slice(index)
+      let selRoom;
+      if (room === 1) selRoom = room1;
+      if (room === 2) selRoom = room2;
+      return selRoom.map((playersRoom, i) =>
         <div key={i}>
           <ListItem
-            primaryText={player}
-            rightAvatar={<Avatar src="https://storage.googleapis.com/material-icons/external-assets/v4/icons/svg/ic_face_black_24px.svg" />}
+            primaryText={playersRoom}
+            leftAvatar={<Avatar src="https://storage.googleapis.com/material-icons/external-assets/v4/icons/svg/ic_face_black_24px.svg" />}
           />
         </div>
       );
@@ -74,7 +80,6 @@ class Lobby extends React.Component {
   }
 
   shuffle (playersArray) {
-
     var i = 0
     var j = 0
     var temp = null
@@ -84,11 +89,6 @@ class Lobby extends React.Component {
       playersArray[i] = playersArray[j]
       playersArray[j] = temp
     }
-  }
-
-  goToPregame () {
-
-    browserHistory.push(`pregame/${this.props.params.gameCode}`)
   }
 
 
@@ -111,18 +111,58 @@ class Lobby extends React.Component {
                 rightIconButton={rightIconMenu}
                 leftIcon={<ActionGrade color={pinkA200} />}
               />
+              <Divider />
             </List>
-            <Divider />
-            <List>
-              {this.renderPlayers.bind(this)()}
-            </List>
+
+            <div className="columns" style={{display:'flex', flexDirection:'row',}}>
+              <div style={{flex: 1}}>
+                  <List>
+                    <ListItem
+                      primaryText="Room 1"
+                      // leftIcon={<ActionGrade color={pinkA200} />}
+                    />
+                    <Divider />
+                    {this.renderPlayers.bind(this)(1)}
+                  </List>
+              </div>
+
+              <div style={{flex:0, width:1}}></div>
+
+              <div style={{marginBottom: 5, borderLeft: '1px solid #cf8d8d', flex: 1}}>
+                  <List>
+                    <ListItem
+                      primaryText="Room 2"
+                      // leftIcon={<ActionGrade color={pinkA200} />}
+                    />
+                    <Divider />
+                    {this.renderPlayers.bind(this)(2)}
+                  </List>
+              </div>
+
+            </div>
           </Card>
+          <div>
+            <Card>
+              <CardHeader
+                title='Your Card'
+              />
+              <CardHeader
+                actAsExpander={true}
+                showExpandableButton={true}
+              />
+              <CardText expandable={true}>
+                <CardMedia>
+                  {/* <img src={this.props.event.image} /> */}
+                </CardMedia>
+                El texto de la Carta
+              </CardText>
+            </Card>
+          </div>
+
           <div style={{margin: 'auto' , display: 'flex'}}>
             <RaisedButton
-
               style={{margin: 'auto', display: 'flex', width: '100%'}}
               label="Start Game"
-              onTouchTap={() => this.goToPregame()}
               primary={true}
             />
           </div>
@@ -136,4 +176,4 @@ export default createContainer(() => {
   return {
     games: Games.find({}, { sort: { createdAt: -1 } }).fetch(),
   };
-}, Lobby);
+}, PreGame);
