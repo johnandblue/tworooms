@@ -4,6 +4,7 @@ import { check } from 'meteor/check';
 
 export const Games = new Meteor.Collection('games');
 let stopWatch=false;
+let round=0;
 // const gameCode = Math.floor(Math.random()*100000);
 if (Meteor.isServer) {
   // This code only runs on the server
@@ -94,7 +95,9 @@ Meteor.methods({
     check(gameCode, String);
     const game=(Games.findOne({gameCode:gameCode}));
     stopWatch=!stopWatch;
-    Games.update(game._id, { $set: { gameStatus:'countDown' , stopWatch:180} });
-    return 180;
+    Games.update(game._id, { $set: { gameStatus:'countDown' , round:round+1} });
+    const roundTime=180-60*round;
+    round++;
+    return roundTime;
   }
 });

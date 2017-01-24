@@ -19,6 +19,9 @@ import {browserHistory } from 'react-router';
 import { Meteor } from 'meteor/meteor';
 import Timer from 'react-countdown-clock';
 
+
+  let timeinterval;
+
 const iconButtonElement = (
   <IconButton
     touch={true}
@@ -68,6 +71,9 @@ const iconButtonElement = (
         this.renderTimer(response);
       });
     }
+    pause(){
+      clearInterval(timeinterval);
+    }
 
     //======================================================
     // RENDERING
@@ -81,8 +87,14 @@ const iconButtonElement = (
           <div style={{margin: 'auto' , display: 'flex'}}>
             <RaisedButton
               style={{margin: 'auto', display: 'flex', width: '100%'}}
-              label="Start Round"
+              label={`Start Round${this.props.game.round}`}
               onTouchTap={() => this.startCountDown() }
+              primary={true}
+            />
+            <RaisedButton
+              style={{margin: 'auto', display: 'flex', width: '100%'}}
+              label="Pause"
+              onTouchTap={() => this.pause() }
               primary={true}
             />
           </div>
@@ -93,10 +105,12 @@ const iconButtonElement = (
     }
 
     renderTimer(timeRemaining){
+      const clock = this.refs.timer;
+      if (timeinterval) {
+        clearInterval(timeinterval);
+      }
 
-      var clock = this.refs.timer;
-      var timeinterval = setInterval(function(){
-        console.log(timeRemaining);
+       timeinterval = setInterval(function(){
         timeRemaining=timeRemaining-1;
         clock.innerHTML =
         'minutes: ' + Math.floor(timeRemaining/60) + '<br>' +
@@ -107,30 +121,30 @@ const iconButtonElement = (
         },1000);
       }
 
-      render () {
-        return (
 
-          <div style={containerStyle}>
-            <div ref='timer'></div>
-            <div>ROUND 1</div>
-            {this.renderPlayerFeatures()}
-            {/* {this.renderTimer()} */}
-          </div>
-        )
-      }
+    render () {
+      return (
+
+        <div >
+          <div style={containerStyle} ref='timer'></div>
+          <div>ROUND {this.props.game.round}</div>
+          {this.renderPlayerFeatures()}
+        </div>
+      )
     }
+  }
 
-    export default createContainer(ownProps => {
-      const gameCode = ownProps.params.gameCode;
-      const gameFetch = Games.find({gameCode: gameCode}).fetch();
-      const game = gameFetch.length > 0 ? gameFetch[0] : {};
-      const currentPlayer = game.player ?
-      game.player.find(player =>  player.name === localStorage.getItem('name')) :
-      {};
+  export default createContainer(ownProps => {
+    const gameCode = ownProps.params.gameCode;
+    const gameFetch = Games.find({gameCode: gameCode}).fetch();
+    const game = gameFetch.length > 0 ? gameFetch[0] : {};
+    const currentPlayer = game.player ?
+    game.player.find(player =>  player.name === localStorage.getItem('name')) :
+    {};
 
-      return {
-        name: localStorage.getItem('name'),
-        game,
-        currentPlayer,
-      };
-    }, Game);
+    return {
+      name: localStorage.getItem('name'),
+      game,
+      currentPlayer,
+    };
+  }, Game);

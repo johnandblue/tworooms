@@ -78,7 +78,7 @@ class PreGame extends React.Component {
           <RaisedButton
             onTouchTap={() => this.goToGame()}
             style={{margin: 'auto', display: 'flex', width: '100%'}}
-            label="Start Round"
+            label="Start Game"
             primary={true}
           />
         </div>
