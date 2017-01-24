@@ -80,6 +80,7 @@ class Game extends React.Component {
   }
 
   leftPad(number) {
+    number=Math.floor(number);
     var output = number + '';
     while (output.length < 2) {
       output = '0' + output;
@@ -98,6 +99,7 @@ class Game extends React.Component {
       this.setState({timeRemaining: game.timeLeft})
     }
   }
+
   nextRound(){
     Meteor.call('games.nextRound', this.props.params.gameCode);
 
@@ -153,13 +155,13 @@ class Game extends React.Component {
         <RaisedButton style={{
           margin: 'auto',
           display: 'flex',
-          width: '100%'
+          width: '90%'
         }} label={this.startPauselabel()}
         onTouchTap={() => this.toggleTimer()} primary={true}/>
         <RaisedButton style={{
           margin: 'auto',
           display: 'flex',
-          width: '100%'
+          width: '90%'
         }} label="NEXT ROUND"
         onTouchTap={() => this.nextRound()} primary={true}/>
 
@@ -172,19 +174,25 @@ class Game extends React.Component {
 
 renderTimer () {
   if (!this.state) return null
-  return <span>Time left: {`${this.state.minutes}:${this.state.seconds}`}</span>
-}
-
-render() {
   return (
-    <div >
-      <div style={containerStyle}>{this.renderTimer()}</div>
-      <div>ROUND {this.props.game.round}</div>
-      <div>{`Round time ${4-this.props.game.round} minutes`}</div>
-      {this.renderPlayerFeatures()}
-    </div>
-  )
-}
+    <div>
+      <span>Time left: {`${this.state.minutes}:${this.state.seconds}`}
+      </span>
+    </div>)
+  }
+
+  render() {
+    return (
+      <div>
+        <div >
+          <div className="game-status">ROUND {this.props.game.round}</div>
+          <div className="game-status">{this.renderTimer()}</div>
+          <div className="game-status">{`Round time ${4-this.props.game.round} minutes`}</div>
+        </div>
+        {this.renderPlayerFeatures()}
+      </div>
+    )
+  }
 }
 
 export default createContainer(ownProps => {

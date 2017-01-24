@@ -11,3 +11,14 @@ body {
   background-size: auto;
   height: 400px;
 }
+
+.game-status {
+  background-color: lightgray;
+  border-bottom: solid 1px gray;
+  font-size: larger;
+  display: flex;
+  padding:  20px;
+  text-align: center;;
+  flex-direction: column;
+  justify-content: space-around;
+}
