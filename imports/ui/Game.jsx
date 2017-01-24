@@ -56,30 +56,22 @@ const iconButtonElement = (
 
 
   class Game extends React.Component {
+
+    componentDidUpdate(prevProps, prevState) {
+      if (this.props.game.gameStatus==='countDown') {
+        this.renderTimer(this.props.game.stopWatch)
+      }
+    }
+
     startCountDown(){
-      
+      Meteor.call('games.startCountDown',this.props.params.gameCode,(error,response)=>{
+        this.renderTimer(response);
+      });
     }
 
     //======================================================
     // RENDERING
     //======================================================
-    renderPlayers(room) {
-      if (!this.props.game.player) return null;
-
-      return this.props.game.player
-      .filter(player => player.room === room)
-      .map(player => {
-        const you = player.name === this.props.name ? ' (you)': '';
-        return (
-          <ListItem
-            key={player.name}
-            primaryText={`${player.name}${you}`}
-            leftAvatar={<Avatar src="https://storage.googleapis.com/material-icons/external-assets/v4/icons/svg/ic_face_black_24px.svg" />}
-          />
-        )
-      });
-    }
-
 
     renderPlayerFeatures(){
 
@@ -100,75 +92,29 @@ const iconButtonElement = (
 
     }
 
+    renderTimer(timeRemaining){
 
-    render () {
-      return (
+      var clock = this.refs.timer;
+      var timeinterval = setInterval(function(){
+        console.log(timeRemaining);
+        timeRemaining=timeRemaining-1;
+        clock.innerHTML =
+        'minutes: ' + Math.floor(timeRemaining/60) + '<br>' +
+          'seconds: ' + timeRemaining%60;
+          if (timeRemaining<=0){
+            clearInterval(timeinterval);
+          }
+        },1000);
+      }
 
-        <div style={containerStyle}>
-          <div style={{margin: 'auto', width: 'inherit'}}>
-            <Card style={{margin: 'auto'}}>
-              <List>
-                <ListItem
-                  primaryText="Code"
-                  secondaryText={this.props.params.gameCode}
-                  rightIconButton={rightIconMenu}
-                  leftIcon={<ActionGrade color={pinkA200} />}
-                />
-                <Divider />
-              </List>
+      render () {
+        return (
 
-              <div className="columns" style={{display:'flex', flexDirection:'row',}}>
-                <div style={{flex: 1}}>
-                  <List>
-                    <ListItem
-                      primaryText="Room 1"
-                      // leftIcon={<ActionGrade color={pinkA200} />}
-                    />
-                    <Divider />
-                    {this.renderPlayers(1)}
-                  </List>
-                </div>
-
-                <div style={{flex:0, width:1}}></div>
-
-                <div style={{marginBottom: 5, borderLeft: '1px solid #cf8d8d', flex: 1}}>
-                  <List>
-                    <ListItem
-                      primaryText="Room 2"
-                      // leftIcon={<ActionGrade color={pinkA200} />}
-                    />
-                    <Divider />
-                    {this.renderPlayers(2)}
-                  </List>
-                </div>
-
-              </div>
-            </Card>
-            <div>
-              <Card>
-                <CardHeader
-                  title=''
-                />
-                <CardMedia style={{margin: 'auto'}}>
-                  <PlayerCard
-                    style={{margin: 'auto'}}
-                    card={this.props.currentPlayer.card}/>
-                  </CardMedia>
-                  <CardHeader
-                    actAsExpander={true}
-                    showExpandableButton={true}
-                  />
-                </Card>
-              </div>
-              <Timer
-                seconds={10}
-                color='blue'
-                size={300}
-                alpha={300}
-                onComplete={console.log('finished')}
-              />
-              {this.renderPlayerFeatures()}
-            </div>
+          <div style={containerStyle}>
+            <div ref='timer'></div>
+            <div>ROUND 1</div>
+            {this.renderPlayerFeatures()}
+            {/* {this.renderTimer()} */}
           </div>
         )
       }

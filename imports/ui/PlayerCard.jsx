@@ -3,7 +3,6 @@ import { Meteor } from 'meteor/meteor';
 import { createContainer } from 'meteor/react-meteor-data';
 import { Games } from '../api/games.js';
 import RaisedButton from 'material-ui/RaisedButton';
-import {card} from '../api/card';
 
 Meteor.subscribe('games');
 

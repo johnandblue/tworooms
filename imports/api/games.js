@@ -1,10 +1,9 @@
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { check } from 'meteor/check';
-import {card} from './card';
 
 export const Games = new Meteor.Collection('games');
-let gameCards={};
+let stopWatch=false;
 // const gameCode = Math.floor(Math.random()*100000);
 if (Meteor.isServer) {
   // This code only runs on the server
@@ -90,10 +89,12 @@ Meteor.methods({
     Games.update(game._id, { $set: { gameStatus:'game' } });
 
   },
+
   'games.startCountDown'(gameCode) {
     check(gameCode, String);
     const game=(Games.findOne({gameCode:gameCode}));
-    Games.update(game._id, { $set: { gameStatus:'countDown' } });
-
+    stopWatch=!stopWatch;
+    Games.update(game._id, { $set: { gameStatus:'countDown' , stopWatch:180} });
+    return 180;
   }
 });
