@@ -34,7 +34,7 @@ Meteor.methods({
       player:[{name:player}],
       createdAt: new Date(),
       gameStatus: 'waitingForPlayers',
-      round:0,
+      round:1,
       running: false,
       timeLeft: 180000,
     });
@@ -111,7 +111,10 @@ Meteor.methods({
   },
 
   'games.nextRound'(gameCode) {
-    // TODO
-    // timeLeft: 180-60*game.round
+    check(gameCode, String);
+    const game=(Games.findOne({gameCode:gameCode}));
+
+    Games.update(game._id, { $set:{ timeLeft:180000 -game.round*60000, round:game.round+1}});
+
   }
 });
