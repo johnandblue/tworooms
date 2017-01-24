@@ -59,21 +59,32 @@ class Game extends React.Component {
 
     }
     setInterval(() => {
+
       if (this.state.timeRemaining<=0) {
         this.nextRound();
       }
 
       if (this.props.game && this.props.game.running) {
+
         if (!this.state) return null
         let timeRemaining = this.state.timeRemaining
 
+
         this.setState({
           timeRemaining: this.state.timeRemaining - 1000,
-          minutes: Math.floor(timeRemaining / 60000),
-          seconds: Math.floor(timeRemaining % 60000 / 1000)
+          minutes: this.leftPad(Math.floor(timeRemaining / 60000)),
+          seconds: this.leftPad(Math.floor(timeRemaining % 60000) / 1000)
         });
       }
     }, 1000)
+  }
+
+  leftPad(number) {
+    var output = number + '';
+    while (output.length < 2) {
+      output = '0' + output;
+    }
+    return output;
   }
 
   componentWillReceiveProps(nextProps) {
@@ -169,6 +180,7 @@ render() {
     <div >
       <div style={containerStyle}>{this.renderTimer()}</div>
       <div>ROUND {this.props.game.round}</div>
+      <div>{`Round time ${4-this.props.game.round} minutes`}</div>
       {this.renderPlayerFeatures()}
     </div>
   )
