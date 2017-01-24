@@ -15,7 +15,7 @@ export default class PlayerCard extends React.Component {
   }
 
   showCard() {
-    this.setState({cardShown: true})
+    this.setState({cardShown: !this.state.cardShown})
   }
 
   renderCard(){
@@ -27,6 +27,12 @@ export default class PlayerCard extends React.Component {
       </div>
     )
   }
+  label(){
+    if (!this.state.cardShown) {
+      return "SHOW CARD";
+    }
+    return "HIDE CARD"
+  }
 
   render () {
     return (
@@ -34,7 +40,7 @@ export default class PlayerCard extends React.Component {
         <RaisedButton
           onTouchTap={() => this.showCard()}
           style={{margin: 'auto', display: 'flex', width: '50%', height: 30}}
-          label="Show Card"
+          label={this.label()}
           primary={true}
         />
         {this.renderCard()}
