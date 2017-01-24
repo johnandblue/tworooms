@@ -4,7 +4,6 @@ import { check } from 'meteor/check';
 
 export const Games = new Meteor.Collection('games');
 let stopWatch=false;
-let round=0;
 // const gameCode = Math.floor(Math.random()*100000);
 if (Meteor.isServer) {
   // This code only runs on the server
@@ -34,7 +33,10 @@ Meteor.methods({
       gameCode,
       player:[{name:player}],
       createdAt: new Date(),
-      gameStatus: 'waitingForPlayers'
+      gameStatus: 'waitingForPlayers',
+      round:0,
+      running: false,
+      timeLeft: 180000,
     });
 
     return gameCode;
@@ -88,16 +90,28 @@ Meteor.methods({
     check(gameCode, String);
     const game=(Games.findOne({gameCode:gameCode}));
     Games.update(game._id, { $set: { gameStatus:'game' } });
-
   },
 
-  'games.startCountDown'(gameCode) {
+  'games.toggleTimer'(gameCode) {
     check(gameCode, String);
     const game=(Games.findOne({gameCode:gameCode}));
-    stopWatch=!stopWatch;
-    Games.update(game._id, { $set: { gameStatus:'countDown' , round:round+1} });
-    const roundTime=180-60*round;
-    round++;
-    return roundTime;
+
+    const running = !game.running;
+    const timerData = {
+      running
+    }
+    if (running) {
+      // pressing play
+      timerData.playTime = Date.now()
+    } else {
+      // pressing pause
+      timerData.timeLeft = game.timeLeft - (Date.now() - game.playTime)
+    }
+    Games.update(game._id, { $set: timerData});
+  },
+
+  'games.nextRound'(gameCode) {
+    // TODO
+    // timeLeft: 180-60*game.round
   }
 });
