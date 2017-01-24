@@ -22,7 +22,7 @@ export default class PlayerCard extends React.Component {
     if (!this.state.cardShown) return null;
     const imageSource=`../../images/${this.props.card}.png`;
     return (
-      <div style={{display:'flex', margin:'auto'}}>
+      <div style={{display:'flex', margin:10}}>
         <img style={{margin:'auto'}} src={imageSource}/>
       </div>
     )
@@ -30,10 +30,10 @@ export default class PlayerCard extends React.Component {
 
   render () {
     return (
-      <div>
+      <div style={{margin:15}} >
         <RaisedButton
           onTouchTap={() => this.showCard()}
-          style={{margin: 'auto', display: 'flex', width: '25%', height: 60}}
+          style={{margin: 'auto', display: 'flex', width: '50%', height: 30}}
           label="Show Card"
           primary={true}
         />

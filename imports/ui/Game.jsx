@@ -14,10 +14,10 @@ import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
 import {createContainer} from 'meteor/react-meteor-data';
 import {Games} from '../api/games.js';
-import PlayerCard from './PlayerCard';
 import {browserHistory} from 'react-router';
 import {Meteor} from 'meteor/meteor';
 import Timer from 'react-countdown-clock';
+import PlayerCard from './PlayerCard';
 
 const iconButtonElement = (
   <IconButton touch={true} tooltip="more" tooltipPosition="bottom-left">
@@ -189,21 +189,26 @@ renderTimer () {
           <div className="game-status">{this.renderTimer()}</div>
           <div className="game-status">{`Round time ${4-this.props.game.round} minutes`}</div>
         </div>
-        {this.renderPlayerFeatures()}
-      </div>
-    )
+
+        <PlayerCard
+          style={{margin: 'auto'}}
+          card={this.props.currentPlayer.card}/>
+
+          {this.renderPlayerFeatures()}
+        </div>
+      )
+    }
   }
-}
 
-export default createContainer(ownProps => {
-  const gameCode = ownProps.params.gameCode;
-  const gameFetch = Games.find({gameCode: gameCode}).fetch();
-  const game = gameFetch.length > 0
-  ? gameFetch[0]
-  : {};
-  const currentPlayer = game.player
-  ? game.player.find(player => player.name === localStorage.getItem('name'))
-  : {};
+  export default createContainer(ownProps => {
+    const gameCode = ownProps.params.gameCode;
+    const gameFetch = Games.find({gameCode: gameCode}).fetch();
+    const game = gameFetch.length > 0
+    ? gameFetch[0]
+    : {};
+    const currentPlayer = game.player
+    ? game.player.find(player => player.name === localStorage.getItem('name'))
+    : {};
 
-  return {name: localStorage.getItem('name'), game, currentPlayer};
-}, Game);
+    return {name: localStorage.getItem('name'), game, currentPlayer};
+  }, Game);
