@@ -64,10 +64,7 @@ class Lobby extends React.Component {
       browserHistory.push(`/pregame/${this.props.params.gameCode}`)
     }
   }
-componentDidMount() {
-  console.log(this.props.games);
-
-}
+  
   shuffle (playersArray) {
 
     var i = 0

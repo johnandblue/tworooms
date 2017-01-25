@@ -41,7 +41,7 @@ class Root extends Component {
       code:''
     }
   }
-  
+
 
   handleOpenNew () {
     this.setState({newGame: true});

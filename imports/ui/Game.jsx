@@ -60,7 +60,7 @@ class Game extends React.Component {
     }
     setInterval(() => {
 
-      if (this.state.timeRemaining<=0) {
+    if (this.state.timeRemaining<=0) {
         this.nextRound();
       }
 
