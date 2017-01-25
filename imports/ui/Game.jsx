@@ -16,7 +16,7 @@ import {createContainer} from 'meteor/react-meteor-data';
 import {Games} from '../api/games.js';
 import {browserHistory} from 'react-router';
 import {Meteor} from 'meteor/meteor';
-import Timer from 'react-countdown-clock';
+import Timer from './Timer';
 import PlayerCard from './PlayerCard';
 import {Tabs, Tab} from 'material-ui/Tabs';
 // From https://github.com/oliviertassinari/react-swipeable-views
@@ -206,6 +206,14 @@ class Game extends React.Component {
 
 renderTimer () {
   if (!this.state) return null
+  if (this.props.game.running){
+    return (
+      <div>
+        <Timer roundTime={this.props.game.timeLeft}/>
+        <span>Time left: {`${this.state.minutes}:${this.state.seconds}`}
+        </span>
+      </div>)
+  }
   return (
     <div>
       <span>Time left: {`${this.state.minutes}:${this.state.seconds}`}

@@ -19,6 +19,9 @@ import {browserHistory } from 'react-router';
 import { Meteor } from 'meteor/meteor';
 import CircularProgress from 'material-ui/CircularProgress';
 
+import {Tabs, Tab} from 'material-ui/Tabs';
+// From https://github.com/oliviertassinari/react-swipeable-views
+import SwipeableViews from 'react-swipeable-views';
 
 const iconButtonElement = (
   <IconButton
@@ -54,10 +57,31 @@ const iconButtonElement = (
   const style = {
     margin:15,
   };
-
+  const styles = {
+    headline: {
+      fontSize: 24,
+      paddingTop: 16,
+      marginBottom: 12,
+      fontWeight: 400,
+    },
+    slide: {
+      padding: 10,
+    },
+  };
 
   class PreGame extends React.Component {
+    constructor(props) {
+      super(props)
+      this.state={
+        slideIndex: 0,
 
+      }
+    }
+    handleChange (value)  {
+      this.setState({
+        slideIndex: value,
+      });
+    }
     componentDidUpdate(prevProps, prevState) {
       let game = this.props.game;
       if (game.gameStatus==='game') {
@@ -98,16 +122,14 @@ const iconButtonElement = (
 
       return this.props.game.player
       .filter(player => player.room === room)
-      .map(player => {
+      .map((player,i) => {
         const you = player.name === this.props.name ? ' (you)': '';
-        return (<div>
+        return (
           <ListItem
-            key={player.name}
+            key={`${i}${player.name}`}
             primaryText={`${player.name}${you}`}
             leftAvatar={<Avatar src="https://storage.googleapis.com/material-icons/external-assets/v4/icons/svg/ic_face_black_24px.svg" />}
           />
-
-        </div>
       )
     });
   }
@@ -117,7 +139,20 @@ const iconButtonElement = (
     const game = this.props.game;
 
     return (
-      <div style={containerStyle}>
+      <div >
+        <Tabs
+          onChange={this.handleChange.bind(this)}
+          value={this.state.slideIndex}
+          >
+            <Tab label="Room Distribution" value={0} />
+            <Tab label="Card" value={1} />
+
+          </Tabs>
+          <SwipeableViews
+            index={this.state.slideIndex}
+            onChangeIndex={this.handleChange.bind(this)}
+            >
+              <div style={styles.slide}>
         <div style={{margin: 'auto', width: 'inherit'}}>
           <Card style={{margin: 'auto'}}>
             <List>
@@ -157,15 +192,20 @@ const iconButtonElement = (
 
             </div>
           </Card>
+        </div>
+      </div>
 
+        <div style={styles.slide}>
           <PlayerCard
             style={{margin: 'auto'}}
             card={this.props.currentPlayer.card}/>
-            <div className='bottom-info'>
-              {this.renderPlayerFeatures()}
+
             </div>
 
-          </div>
+        </SwipeableViews>
+        <div className='bottom-info'>
+          {this.renderPlayerFeatures()}
+        </div>
         </div>
       )
     }

@@ -3,7 +3,7 @@ body {
   background-color: #FAFAFA;
   background-size: cover;
   margin: 0;
-
+  font-family:"Work Sans"
 
 }
 .card-container{
@@ -13,11 +13,10 @@ body {
 }
 
 .game-status {
-  background-color: lightgray;
   border-bottom: solid 1px gray;
   font-size: larger;
   display: flex;
-  padding: 10px;
+  padding: 40px;
   text-align: center;;
   flex-direction: column;
   justify-content: space-around;
