@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
 import {browserHistory } from 'react-router';
+import { Link } from 'react-router';
 import AppBar from 'material-ui/AppBar';
-
+import IconButton from 'material-ui/IconButton';
+import ActionHome from 'material-ui/svg-icons/action/home';
 
 const style={
-  backgroundColor:'#D32F2F'
+  backgroundColor:'Black'
 }
 
 export default class App extends Component {
@@ -16,7 +18,11 @@ export default class App extends Component {
         <header>
           <AppBar
             title="Two Rooms and a Boom"
-            style={style}/>
+            style={style}
+            iconElementLeft={<IconButton
+            containerElement={<Link to="/" />}
+            ><ActionHome /></IconButton>}
+          />
         </header>
         {this.props.children}
       </div>

@@ -1,0 +1,4 @@
+export const card = {
+  cardNumber:'',
+  
+}

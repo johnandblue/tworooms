@@ -14,7 +14,7 @@ import { createContainer } from 'meteor/react-meteor-data';
 const containerStyle = {
   margin: '0 auto',
   // width: 960,
-  padding: 20,
+  // padding: 20,
   display: 'flex'
 }
 
@@ -57,14 +57,27 @@ class Root extends Component {
   }
 
   createNewGame() {
-
-    const gameCode = String(Math.floor(Math.random()*100000));
-    Meteor.call('games.insert', gameCode, this.state.playerName);
-    browserHistory.push(`game/${gameCode}`)
+    Meteor.call('games.insert', this.state.playerName, (err, gameCode) => {
+      if (!err) {
+        localStorage.setItem('name', this.state.playerName);
+        localStorage.setItem('gameCode', gameCode);
+        localStorage.setItem('admin', true)
+        browserHistory.push(`lobby/${gameCode}`);
+      } else {
+        alert('Something bad happened.');
+      }
+    });
   }
   joinGame(){
-    Meteor.call('games.addPlayer', this.state.code, this.state.playerName);
-    browserHistory.push(`game/${this.state.code}`)
+    Meteor.call('games.addPlayer', this.state.code, this.state.playerName, (err) => {
+      if (!err) {
+        localStorage.setItem('name', this.state.playerName);
+        localStorage.setItem('gameCode', this.state.code);
+        browserHistory.push(`lobby/${this.state.code}`)
+      } else {
+        alert('Something bad happened.');
+      }
+    });
   }
 
 
@@ -157,6 +170,7 @@ class Root extends Component {
                 floatingLabelFixed={true}
                 onChange={(event, playerName) => this.setState({playerName})}
               />
+              <br />
             </Dialog>
 
           </Card>

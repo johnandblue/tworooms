@@ -1,8 +1,13 @@
 /* CSS declarations go here */
 body {
-  /*background: url("https://static1.squarespace.com/static/56f9dabae707eb2fa5325980/57392fc1f85082cb3f2a2a8c/57392fccf85082cb3f2a2acd/1463375115850/cards-long-hero.png?format=2500w") no-repeat center ;*/
   background-color: #808080;
-  background-size: cover
+  background-size: cover;
+  margin: 0;
 
 
+}
+.card-container{
+  background-repeat: no-repeat;
+  background-size: auto;
+  height: 400px;
 }
