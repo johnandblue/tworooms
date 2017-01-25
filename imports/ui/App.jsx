@@ -1,3 +1,4 @@
+
 import React, { Component } from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
 import {browserHistory } from 'react-router';
@@ -12,9 +13,9 @@ const style={
 
 export default class App extends Component {
 
- render() {
+  render() {
     return (
-      <div>      
+      <div>
         {this.props.children}
       </div>
     );

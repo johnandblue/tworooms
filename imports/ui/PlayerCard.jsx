@@ -24,14 +24,17 @@ export default class PlayerCard extends React.Component {
     if (!this.state.cardShown) return null;
     const imageSource=`../../images/${this.props.card}.png`;
     return (
-      <Card
-        rol={cards[this.props.card].rol}
-        team={cards[this.props.card].team}
-        description={cards[this.props.card].description}
-        image={cards[this.props.card].image}
-        teamColorDark={cards[this.props.card].teamColorDark}
-        teamColorLight={cards[this.props.card].teamColorLight}
-      />
+      <div style={{display:'flex', marginTop: 20}}>
+        <Card
+          className='CardComponent'
+          rol={cards[this.props.card].rol}
+          team={cards[this.props.card].team}
+          description={cards[this.props.card].description}
+          image={cards[this.props.card].image}
+          teamColorDark={cards[this.props.card].teamColorDark}
+          teamColorLight={cards[this.props.card].teamColorLight}
+        />
+      </div>
     )
   }
   label(){
@@ -43,7 +46,7 @@ export default class PlayerCard extends React.Component {
 
   render () {
     return (
-      <div style={{margin:15}} >
+      <div style={{marginTop:'20', marginBottom:'20'}} >
         <RaisedButton
           onTouchTap={() => this.showCard()}
           style={{margin: 'auto', display: 'flex', width: '50%', height: 30}}

@@ -8,26 +8,24 @@ const style={
 }
 
         const card={
-          marginTop: 30,
-          marginLeft: 30,
+          margin: 'auto',
           borderRadius: '20px',
-          width: '280px',
-          height: '400px',
+          // width: '280px',
+          // height: '400px',
           display: 'flex',
-          flexDirection: 'row'
+          flexDirection: 'column'
         }
 
         const down={
           // border: 'red solid 5px',
           backgroundColor: '#0b438b',
-          marginTop: '300px',
+          marginTop: '0px',
           borderBottomRightRadius: '20px',
           borderBottomLeftRadius: '20px',
           width: '280px',
           height: '100px',
           display: 'flex',
           flex: 1,
-          position: 'absolute'
         }
 
         const top={
@@ -162,9 +160,6 @@ export default class Card extends React.Component {
 
   render() {
     return (
-
-
-      <div>
         <div style={card} onTouchTap={() => this.tapCard()}>
           <div style={top}>
             <div style={{...topLeft, backgroundColor: this.props.teamColorLight}}>
@@ -178,8 +173,6 @@ export default class Card extends React.Component {
             <p style={text}>{this.props.team}</p>
           </div>
         </div>
-      </div>
-
     );
   }
 }
