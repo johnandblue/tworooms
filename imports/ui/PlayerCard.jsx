@@ -2,7 +2,9 @@ import React, { PropTypes } from 'react'
 import { Meteor } from 'meteor/meteor';
 import { createContainer } from 'meteor/react-meteor-data';
 import { Games } from '../api/games.js';
+import Card from './Card';
 import RaisedButton from 'material-ui/RaisedButton';
+import cards from '../lib/cards.js';
 
 Meteor.subscribe('games');
 
@@ -22,9 +24,14 @@ export default class PlayerCard extends React.Component {
     if (!this.state.cardShown) return null;
     const imageSource=`../../images/${this.props.card}.png`;
     return (
-      <div style={{display:'flex', margin:'auto'}}>
-        <img style={{margin:'auto'}} src={imageSource}/>
-      </div>
+      <Card
+        rol={cards[this.props.card].rol}
+        team={cards[this.props.card].team}
+        description={cards[this.props.card].description}
+        image={cards[this.props.card].image}
+        teamColorDark={cards[this.props.card].teamColorDark}
+        teamColorLight={cards[this.props.card].teamColorLight}
+      />
     )
   }
 
