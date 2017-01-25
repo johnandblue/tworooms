@@ -54,8 +54,8 @@ class Game extends React.Component {
   constructor(props) {
     super(props)
     this.state={
-      minutes:'-',
-      seconds:'-',
+      minutes:'03',
+      seconds:'00',
 
     }
     setInterval(() => {
@@ -105,8 +105,8 @@ class Game extends React.Component {
         browserHistory.push('/');
       } else {
         this.setState({
-          minutes:'-',
-          seconds:'-',
+          minutes:`0${3-this.props.game.round}`,
+          seconds:'00',
         });
       }
     }
@@ -131,6 +131,12 @@ class Game extends React.Component {
 
   startPause() {
     Meteor.call('games.toggleTimer', this.props.params.gameCode);
+  }
+  nextGameLabel(){
+    if (this.props.game.round > 2) {
+      return "END GAME";
+    }
+    return "NEXT ROUND";
   }
 
   startPauselabel() {
@@ -165,7 +171,8 @@ class Game extends React.Component {
           margin: 'auto',
           display: 'flex',
           width: '90%'
-        }} label="NEXT ROUND"
+        }}
+        label={this.nextGameLabel()}
         onTouchTap={() => this.nextRound()} primary={true}/>
 
       </div>
