@@ -74,7 +74,7 @@ class PreGame extends React.Component {
     const admin =localStorage.getItem('admin');
     if (admin) {
       return (
-        <div style={{margin: 'auto' , display: 'flex'}}>
+        <div className='bottom-info'>
           <RaisedButton
             onTouchTap={() => this.goToGame()}
             style={{margin: 'auto', display: 'flex', width: '100%'}}
