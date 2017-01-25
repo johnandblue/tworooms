@@ -75,8 +75,9 @@ const style={
         const cardSideText = {
           position: 'absolute',
           transform: 'rotate(90deg)',
-          top: 135,
-          right: 102,
+          top: 140,
+          right: -104,
+          width: 300
         }
 
         const textRight1={
@@ -169,7 +170,7 @@ export default class Card extends React.Component {
             <div style={{...topLeft, backgroundColor: this.props.teamColorLight}}>
               {this.renderImage()}
             </div>
-            <div style={{...topRight, backgroundColor: this.props.teamColorDark}}>
+            <div style={{...topRight, backgroundColor: this.props.teamColorDark, position: 'relative'}}>
               {this.renderDescription()}
             </div>
           </div>
