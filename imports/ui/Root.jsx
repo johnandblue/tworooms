@@ -6,23 +6,26 @@ import Card from 'material-ui/Card';
 import {browserHistory } from 'react-router';
 import '../../client/main.css';
 import { Games } from '../api/games.js';
+import Divider from 'material-ui/Divider';
 
 import { Meteor } from 'meteor/meteor';
 import { createContainer } from 'meteor/react-meteor-data';
 
 
 const containerStyle = {
-  margin: '0 auto',
-  // width: 960,
-  // padding: 20,
-  display: 'flex'
+  margin: 'auto',
+  display: 'flex',
+  width: '100%',
+  height: '100vh',
+  flexDirection: 'column',
 }
 
 const LoginStyle={
-  // marginTop:200,
+  display: 'flex',
+  flex: 'column',
   padding: 40,
-  fontSize: 20,
-  marginBottom: 15,
+  fontSize: 10,
+  // marginBottom: 15,
   textAlign: 'center',
 
 }
@@ -30,6 +33,33 @@ const LoginStyle={
 const style = {
   margin:15,
 };
+
+const buttons = {
+  // border: '1px solid blue',
+  margin: 'auto',
+  width: '50%'
+  // display: 'flex',
+  // flexDirection: 'column',
+};
+
+const button = {
+  marginBottom: 20,
+  display: 'flex',
+  width: '100%',
+  //height: '50px'
+};
+
+
+const text={
+  // border: '1px solid blue',
+  fontWeight: '700',
+  fontFamily: 'Work Sans',
+  color: '#0b438b',
+  textAlign: 'center',
+  // margin: 'auto',
+  fontSize: 60,
+  marginTop: 50,
+}
 
 class Root extends Component {
   constructor(){
@@ -87,14 +117,14 @@ class Root extends Component {
 
     const actionsNew = [
       <RaisedButton
-        style={{margin:15}}
+        style={{display: 'flex', margin:'auto'}}
         label="Cancel"
-        primary={true}
+        secondary={true}
         onTouchTap={this.handleClose.bind(this)}
       />,
       <RaisedButton
-        style={{marginLeft:10, marginRight:10}}
-        label="Submit"
+        style={{display: 'flex', margin:'auto'}}
+        label="OK"
         primary={true}
         keyboardFocused={true}
         onTouchTap={this.createNewGame.bind(this)}
@@ -103,13 +133,14 @@ class Root extends Component {
 
     const actionsJoin = [
       <RaisedButton
-        style={{margin:15}}
+        style={{display: 'flex', margin:'auto'}}
         label="Cancel"
-        primary={true}
+        secondary={true}
         onTouchTap={this.handleClose.bind(this)}
       />,
+      <Divider />,
       <RaisedButton
-        style={{marginLeft:10, marginRight:10}}
+        style={{display: 'flex', margin:'auto'}}
         label="Submit"
         primary={true}
         keyboardFocused={true}
@@ -119,29 +150,61 @@ class Root extends Component {
 
     return (
       <div style={containerStyle}>
-        <div style={{margin:'auto'}}>
-          <Card style={LoginStyle}>
-            <RaisedButton
-              style={style}
-              label= 'NEW GAME'
-              primary={true}
-              onTouchTap={this.handleOpenNew.bind(this)}
-              // onTouchTap={this.createNewGame.bind(this)}
-            />
-            <RaisedButton
-              style={style}
-              label= 'JOIN GAME'
-              primary={true}
-              onTouchTap={this.handleOpenJoin.bind(this)}
-            />
+
+        <div style={text}>
+          <div>TWO</div>
+          <div>ROOMS</div>
+          <div>AND A</div>
+          <div>BOOM</div>
+        </div>
+
+        <div style={buttons}>
+          <RaisedButton
+            style={button}
+            label= 'NEW GAME'
+            default={true}
+            onTouchTap={this.handleOpenNew.bind(this)}
+            // onTouchTap={this.createNewGame.bind(this)}
+          />
+          <RaisedButton
+            style={button}
+            label= 'JOIN GAME'
+            default={true}
+            onTouchTap={this.handleOpenJoin.bind(this)}
+          />
+        </div>
+        <div>
+          <Dialog
+            style={LoginStyle}
+            title="Please, write your username to enter the Lobby"
+            actions={actionsNew}
+            modal={true}
+            open={this.state.newGame}
+            >
+
+              <TextField
+                name= "player"
+                hintText="Player"
+                floatingLabelText="Insert your name here"
+                floatingLabelFixed={true}
+                onChange={(event, playerName) => this.setState({playerName})}
+              />
+            </Dialog>
+
             <Dialog
               style={LoginStyle}
-              title="Please, write your username to enter the Lobby"
-              actions={actionsNew}
+              title="Insert your Username and Game Code"
+              actions={actionsJoin}
               modal={true}
-              open={this.state.newGame}
+              open={this.state.open}
               >
-
+                <TextField
+                  name= "code"
+                  hintText="Code"
+                  floatingLabelText="Insert your code here"
+                  floatingLabelFixed={true}
+                  onChange={(event, code) => this.setState({code})}
+                />
                 <TextField
                   name= "player"
                   hintText="Player"
@@ -149,33 +212,8 @@ class Root extends Component {
                   floatingLabelFixed={true}
                   onChange={(event, playerName) => this.setState({playerName})}
                 />
+                <br />
               </Dialog>
-
-              <Dialog
-                style={LoginStyle}
-                title="Insert your Username and Game Code"
-                actions={actionsJoin}
-                modal={true}
-                open={this.state.open}
-                >
-                  <TextField
-                    name= "code"
-                    hintText="Code"
-                    floatingLabelText="Insert your code here"
-                    floatingLabelFixed={true}
-                    onChange={(event, code) => this.setState({code})}
-                  />
-                  <TextField
-                    name= "player"
-                    hintText="Player"
-                    floatingLabelText="Insert your name here"
-                    floatingLabelFixed={true}
-                    onChange={(event, playerName) => this.setState({playerName})}
-                  />
-                  <br />
-                </Dialog>
-
-              </Card>
             </div>
           </div>
         );
