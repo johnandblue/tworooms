@@ -1,5 +1,5 @@
-import React, {PropTypes} from 'react'
 import RaisedButton from 'material-ui/RaisedButton';
+import React, {PropTypes} from 'react'
 import TextField from 'material-ui/TextField';
 import Dialog from 'material-ui/Dialog';
 import {Card, CardMedia, CardTitle, CardHeader, CardText} from 'material-ui/Card';
@@ -98,26 +98,29 @@ class Game extends React.Component {
     if (game && game.running !== this.props.game.running && !game.running) {
       this.setState({timeRemaining: game.timeLeft})
     }
+
+    if (game && game.round !== this.props.game.round) {
+      if (this.props.game.round > 2) {
+        localStorage.clear();
+        browserHistory.push('/');
+      } else {
+        this.setState({
+          minutes:'-',
+          seconds:'-',
+        });
+      }
+    }
   }
 
   nextRound(){
     Meteor.call('games.nextRound', this.props.params.gameCode);
 
-    if (this.props.game.round > 2) {
-      localStorage.clear();
-      browserHistory.push('/');
-    } else {
+    if (this.props.game.round <= 2) {
       // pause timer
       if (this.props.game.running) {
         Meteor.call('games.toggleTimer', this.props.params.gameCode);
-
       }
-      this.setState({
-        minutes:'-',
-        seconds:'-',
-      });
     }
-
   }
 
 
@@ -185,7 +188,7 @@ renderTimer () {
     return (
       <div>
         <div >
-          <div className="game-status">ROUND {this.props.game.round}</div>
+          <div className="game-status">ROUND { this.props.game.round}</div>
           <div className="game-status">{this.renderTimer()}</div>
           <div className="game-status">{`Round time ${4-this.props.game.round} minutes`}</div>
         </div>

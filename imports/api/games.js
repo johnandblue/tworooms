@@ -113,7 +113,7 @@ Meteor.methods({
   'games.nextRound'(gameCode) {
     check(gameCode, String);
     const game=(Games.findOne({gameCode:gameCode}));
-
+    
     Games.update(game._id, { $set:{ timeLeft:180000 -game.round*60000, round:game.round+1}});
 
   }
