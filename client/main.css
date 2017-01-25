@@ -22,3 +22,14 @@ body {
   flex-direction: column;
   justify-content: space-around;
 }
+.scrollable-list {
+  height: 300px;
+  overflow-y:scroll;
+}
+
+.bottom-info {
+  bottom: 0;
+  position: fixed;
+  width: 100%;
+  text-align: center
+}

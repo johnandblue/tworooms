@@ -5,19 +5,18 @@ import { Link } from 'react-router';
 import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
 import ActionHome from 'material-ui/svg-icons/action/home';
-import Card from './Card'
 
-
+const style={
+  backgroundColor:'Black'
+}
 
 export default class App extends Component {
 
-  render() {
+ render() {
     return (
-
-      <div>
-        <Card />
+      <div>      
+        {this.props.children}
       </div>
-
     );
   }
 }
