@@ -23,6 +23,7 @@ body {
   justify-content: space-around;
 }
 .scrollable-list {
+  padding-top: 20px;
   height: 300px;
   overflow-y:scroll;
 }

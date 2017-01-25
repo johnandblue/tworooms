@@ -12,7 +12,7 @@ export default class PlayerCard extends React.Component {
   constructor(){
     super()
     this.state={
-      cardShown:false,
+      cardShown:true,
     }
   }
 
@@ -24,7 +24,7 @@ export default class PlayerCard extends React.Component {
     if (!this.state.cardShown) return null;
     const imageSource=`../../images/${this.props.card}.png`;
     return (
-      <div style={{display:'flex', marginTop: 20}}>
+      <div style={{display:'flex', marginTop: '20px'}}>
         <Card
           className='CardComponent'
           rol={cards[this.props.card].rol}
@@ -46,7 +46,7 @@ export default class PlayerCard extends React.Component {
 
   render () {
     return (
-      <div style={{marginTop:'20', marginBottom:'20'}} >
+      <div style={{marginTop:'20px', marginBottom:'20px'}} >
         <RaisedButton
           onTouchTap={() => this.showCard()}
           style={{margin: 'auto', display: 'flex', width: '50%', height: 30}}

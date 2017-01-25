@@ -39,7 +39,6 @@ const iconButtonElement = (
   const containerStyle = {
     margin: '0 auto',
     width: '100%',
-    // padding: 20,
     display: 'flex'
   }
 
@@ -67,18 +66,7 @@ const iconButtonElement = (
       }
     }
 
-    shuffle (playersArray) {
 
-      var i = 0
-      var j = 0
-      var temp = null
-      for (i = playersArray.length - 1; i > 0; i -= 1) {
-        j = Math.floor(Math.random() * (i + 1))
-        temp = playersArray[i]
-        playersArray[i] = playersArray[j]
-        playersArray[j] = temp
-      }
-    }
 
     goToPregame () {
       Meteor.call('games.shuffle',this.props.params.gameCode);
@@ -103,9 +91,15 @@ const iconButtonElement = (
           />
         )
       }
-      return  <CircularProgress size={80} thickness={5} />
-
-
+      return (
+        <div >
+          <RaisedButton
+            style={{margin: 'auto', display: 'flex', width: '100%'}}
+            label="Waiting for admin to Start the game..."
+            primary={true}
+          />
+        </div>
+      )
     }
 
     renderPlayers() {
