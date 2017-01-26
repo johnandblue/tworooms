@@ -19,14 +19,6 @@ export default {
     teamColorLight: blueLight,
   },
   1: {
-    team: blueTeam,
-    rol: blueTeam,
-    description: 'KEEP THE PRESIDENT AWAY FROM THE BOMBER',
-    image: '/../images/empire.svg',
-    teamColorDark: blueDark,
-    teamColorLight: blueLight,
-  },
-  2: {
     team: redTeam,
     rol: 'BOMBER',
     description: 'BE WITH THE PRESIDENT',
@@ -34,6 +26,15 @@ export default {
     teamColorDark: redDark,
     teamColorLight: redLight,
   },
+  2: {
+    team: blueTeam,
+    rol: blueTeam,
+    description: 'KEEP THE PRESIDENT AWAY FROM THE BOMBER',
+    image: '/../images/empire.svg',
+    teamColorDark: blueDark,
+    teamColorLight: blueLight,
+  },
+
   3: {
     team: redTeam,
     rol: redTeam,
