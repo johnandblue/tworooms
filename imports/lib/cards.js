@@ -34,7 +34,10 @@ export default {
     teamColorDark: blueDark,
     teamColorLight: blueLight,
   },
+<<<<<<< HEAD
 
+=======
+>>>>>>> development
   3: {
     team: redTeam,
     rol: redTeam,
@@ -46,9 +49,26 @@ export default {
   4: {
     team: greyTeam,
     rol: 'GAMBLER',
-    description: 'GUESS IF RED, BLUE OR NEITHER TEAM WON',
+    description: 'AT THE END OF THE GAME, GUESS IF RED OR BLUE TEAM WON',
     image: '/../images/javaTheHutt.svg',
     teamColorDark: greyDark,
     teamColorLight: greyLight,
   },
+  5: {
+    team: blueTeam,
+    rol: 'SPY',
+    description: 'YOU ARE THE RED TEAM',
+    image: '/../images/empire.svg',
+    teamColorDark: blueDark,
+    teamColorLight: blueLight,
+  },
+  6: {
+    team: redTeam,
+    rol: 'SPY',
+    description: 'YOU ARE THE BLUE TEAM',
+    image: '/../images/rebelion.svg',
+    teamColorDark: redDark,
+    teamColorLight: redLight,
+  },
+
 }
