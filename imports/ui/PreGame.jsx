@@ -102,7 +102,7 @@ const iconButtonElement = (
         return (
           <RaisedButton
             onTouchTap={() => this.goToGame()}
-            style={{margin: 'auto', display: 'flex', width: '100%'}}
+            style={{margin: 'auto', display: 'flex', width: '100%', height: 60}}
             label="Start Game"
             primary={true}
           />
@@ -141,6 +141,7 @@ const iconButtonElement = (
     return (
       <div >
         <Tabs
+          style={{height: 60}}
           onChange={this.handleChange.bind(this)}
           value={this.state.slideIndex}
           >

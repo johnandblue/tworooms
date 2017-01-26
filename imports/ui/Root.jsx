@@ -23,8 +23,8 @@ const containerStyle = {
 const LoginStyle={
   display: 'flex',
   flex: 'column',
-  padding: 40,
-  fontSize: 10,
+  padding: 49,
+  fontSize: 20,
   // marginBottom: 15,
   textAlign: 'center',
 
@@ -43,10 +43,10 @@ const buttons = {
 };
 
 const button = {
-  marginBottom: 20,
+  marginBottom: 30,
   display: 'flex',
   width: '100%',
-  //height: '50px'
+  height: 60
 };
 
 
@@ -117,13 +117,13 @@ class Root extends Component {
 
     const actionsNew = [
       <RaisedButton
-        style={{display: 'flex', margin:'auto'}}
+        style={{display: 'flex', margin:'auto', height: 60}}
         label="Cancel"
         secondary={true}
         onTouchTap={this.handleClose.bind(this)}
       />,
       <RaisedButton
-        style={{display: 'flex', margin:'auto'}}
+        style={{display: 'flex', margin:'auto', height: 60}}
         label="OK"
         primary={true}
         keyboardFocused={true}
@@ -133,14 +133,14 @@ class Root extends Component {
 
     const actionsJoin = [
       <RaisedButton
-        style={{display: 'flex', margin:'auto'}}
+        style={{display: 'flex', margin:'auto', height: 60}}
         label="Cancel"
         secondary={true}
         onTouchTap={this.handleClose.bind(this)}
       />,
       <Divider />,
       <RaisedButton
-        style={{display: 'flex', margin:'auto'}}
+        style={{display: 'flex', margin:'auto', height: 60}}
         label="Submit"
         primary={true}
         keyboardFocused={true}
@@ -164,7 +164,6 @@ class Root extends Component {
             label= 'NEW GAME'
             default={true}
             onTouchTap={this.handleOpenNew.bind(this)}
-            // onTouchTap={this.createNewGame.bind(this)}
           />
           <RaisedButton
             style={button}
@@ -175,8 +174,11 @@ class Root extends Component {
         </div>
         <div>
           <Dialog
-            style={LoginStyle}
-            title="Please, write your username to enter the Lobby"
+            style={{
+              margin: 'auto',
+              textAlign: 'center'
+            }}
+            title="Please, type your username"
             actions={actionsNew}
             modal={true}
             open={this.state.newGame}
@@ -192,7 +194,7 @@ class Root extends Component {
             </Dialog>
 
             <Dialog
-              style={LoginStyle}
+              style={{margin: 'auto', textAlign: 'center'}}
               title="Insert your Username and Game Code"
               actions={actionsJoin}
               modal={true}

@@ -186,14 +186,18 @@ class Game extends React.Component {
         <RaisedButton style={{
           margin: 'auto',
           display: 'flex',
-          width: '90%'
+          width: '90%',
+          height: 60
         }} label={this.startPauselabel()}
         onTouchTap={() => this.toggleTimer()} primary={true}/>
         <RaisedButton style={{
           margin: 'auto',
           display: 'flex',
-          width: '90%'
+          width: '90%',
+          height: 60,
+          color: 'blue'
         }}
+        secondary={true}
         label={this.nextGameLabel()}
         onTouchTap={() => this.nextRound()} primary={true}/>
 
@@ -225,6 +229,7 @@ renderTimer () {
     return (
       <div>
         <Tabs
+          style={{height: 60}}
           onChange={this.handleChange.bind(this)}
           value={this.state.slideIndex}
           >

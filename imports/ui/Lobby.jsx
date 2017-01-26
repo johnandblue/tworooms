@@ -84,7 +84,7 @@ const iconButtonElement = (
         return (
 
           <RaisedButton
-            style={{margin: 'auto', display: 'flex', width: '100%'}}
+            style={{margin: 'auto', display: 'flex', width: '100%', height: 60}}
             label="Go to your Room"
             onTouchTap={() => this.goToPregame()}
             primary={true}
