@@ -12,7 +12,6 @@ export default class Timer extends React.Component {
   }
 
   componentDidMount() {
-
     this.timer = setTimeout(() => this.progress(this.state.completed), 1000);
   }
 

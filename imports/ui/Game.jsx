@@ -23,6 +23,8 @@ import {Tabs, Tab} from 'material-ui/Tabs';
 import SwipeableViews from 'react-swipeable-views';
 import FontIcon from 'material-ui/FontIcon';
 
+import PauseIcon from 'material-ui/svg-icons/av/pause-circle-outline';
+
 const iconButtonElement = (
   <IconButton touch={true} tooltip="more" tooltipPosition="bottom-left">
     <MoreVertIcon color={grey400}/>
@@ -167,12 +169,10 @@ class Game extends React.Component {
 
   startPauselabel() {
     if (this.props.game.running) {
-      return (
-      <img src="../../images/play.svg"></img>
-      );
+      return <PauseIcon />;
     }
 
-    return (<img src="../../images/play.svg"></img>)
+    return <PauseIcon />
   }
 
   //======================================================
