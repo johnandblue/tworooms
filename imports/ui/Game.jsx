@@ -16,8 +16,11 @@ import {createContainer} from 'meteor/react-meteor-data';
 import {Games} from '../api/games.js';
 import {browserHistory} from 'react-router';
 import {Meteor} from 'meteor/meteor';
-import Timer from 'react-countdown-clock';
+import Timer from './Timer';
 import PlayerCard from './PlayerCard';
+import {Tabs, Tab} from 'material-ui/Tabs';
+// From https://github.com/oliviertassinari/react-swipeable-views
+import SwipeableViews from 'react-swipeable-views';
 
 const iconButtonElement = (
   <IconButton touch={true} tooltip="more" tooltipPosition="bottom-left">
@@ -49,6 +52,17 @@ const CardStyle = {
 const style = {
   margin: 15
 };
+const styles = {
+  headline: {
+    fontSize: 24,
+    paddingTop: 16,
+    marginBottom: 12,
+    fontWeight: 400,
+  },
+  slide: {
+    padding: 10,
+  },
+};
 
 class Game extends React.Component {
   constructor(props) {
@@ -56,6 +70,8 @@ class Game extends React.Component {
     this.state={
       minutes:'03',
       seconds:'00',
+      slideIndex: 0,
+
 
     }
     setInterval(() => {
@@ -77,6 +93,12 @@ class Game extends React.Component {
         });
       }
     }, 1000)
+  }
+
+  handleChange (value)  {
+    this.setState({
+      slideIndex: value,
+    });
   }
 
   leftPad(number) {
@@ -164,14 +186,18 @@ class Game extends React.Component {
         <RaisedButton style={{
           margin: 'auto',
           display: 'flex',
-          width: '90%'
+          width: '90%',
+          height: 60
         }} label={this.startPauselabel()}
         onTouchTap={() => this.toggleTimer()} primary={true}/>
         <RaisedButton style={{
           margin: 'auto',
           display: 'flex',
-          width: '90%'
+          width: '90%',
+          height: 60,
+          color: 'blue'
         }}
+        secondary={true}
         label={this.nextGameLabel()}
         onTouchTap={() => this.nextRound()} primary={true}/>
 
@@ -184,6 +210,14 @@ class Game extends React.Component {
 
 renderTimer () {
   if (!this.state) return null
+  if (this.props.game.running){
+    return (
+      <div>
+        <Timer roundTime={this.props.game.timeLeft}/>
+        <span>Time left: {`${this.state.minutes}:${this.state.seconds}`}
+        </span>
+      </div>)
+  }
   return (
     <div>
       <span>Time left: {`${this.state.minutes}:${this.state.seconds}`}
@@ -194,31 +228,51 @@ renderTimer () {
   render() {
     return (
       <div>
-        <div >
-          <div className="game-status">ROUND { this.props.game.round}</div>
-          <div className="game-status">{this.renderTimer()}</div>
-          <div className="game-status">{`Round time ${4-this.props.game.round} minutes`}</div>
-        </div>
+        <Tabs
+          style={{height: 60}}
+          onChange={this.handleChange.bind(this)}
+          value={this.state.slideIndex}
+          >
+            <Tab label="Game Status" value={0} />
+            <Tab label="Card" value={1} />
 
-        <PlayerCard
-          style={{margin: 'auto'}}
-          card={this.props.currentPlayer.card}/>
+          </Tabs>
+          <SwipeableViews
+            index={this.state.slideIndex}
+            onChangeIndex={this.handleChange.bind(this)}
+            >
+              <div style={styles.slide}>
 
-          {this.renderPlayerFeatures()}
-        </div>
-      )
-    }
-  }
+                <div className="game-status">ROUND { this.props.game.round}</div>
+                <div className="game-status">{this.renderTimer()}</div>
+                <div className="game-status">{`Round time ${4-this.props.game.round} minutes`}</div>
+              </div>
+              <div style={styles.slide}>
 
-  export default createContainer(ownProps => {
-    const gameCode = ownProps.params.gameCode;
-    const gameFetch = Games.find({gameCode: gameCode}).fetch();
-    const game = gameFetch.length > 0
-    ? gameFetch[0]
-    : {};
-    const currentPlayer = game.player
-    ? game.player.find(player => player.name === localStorage.getItem('name'))
-    : {};
+                <PlayerCard
+                  style={{margin: 'auto'}}
+                  card={this.props.currentPlayer.card}/>         </div>
+                </SwipeableViews>
 
-    return {name: localStorage.getItem('name'), game, currentPlayer};
-  }, Game);
+                <div className='bottom-info'>
+                  {this.renderPlayerFeatures()}
+                </div>
+
+              </div>
+            );
+          }
+        }
+
+
+        export default createContainer(ownProps => {
+          const gameCode = ownProps.params.gameCode;
+          const gameFetch = Games.find({gameCode: gameCode}).fetch();
+          const game = gameFetch.length > 0
+          ? gameFetch[0]
+          : {};
+          const currentPlayer = game.player
+          ? game.player.find(player => player.name === localStorage.getItem('name'))
+          : {};
+
+          return {name: localStorage.getItem('name'), game, currentPlayer};
+        }, Game);

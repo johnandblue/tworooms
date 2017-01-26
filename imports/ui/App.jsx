@@ -1,3 +1,4 @@
+
 import React, { Component } from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
 import {browserHistory } from 'react-router';
@@ -10,20 +11,12 @@ const style={
   backgroundColor:'Black'
 }
 
-export default class App extends Component {
+export default
+ class App extends Component {
 
   render() {
     return (
       <div>
-        <header>
-          <AppBar
-            title="Two Rooms and a Boom"
-            style={style}
-            iconElementLeft={<IconButton
-            containerElement={<Link to="/" />}
-            ><ActionHome /></IconButton>}
-          />
-        </header>
         {this.props.children}
       </div>
     );

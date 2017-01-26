@@ -2,7 +2,9 @@ import React, { PropTypes } from 'react'
 import { Meteor } from 'meteor/meteor';
 import { createContainer } from 'meteor/react-meteor-data';
 import { Games } from '../api/games.js';
+import Card from './Card';
 import RaisedButton from 'material-ui/RaisedButton';
+import cards from '../lib/cards.js';
 
 Meteor.subscribe('games');
 
@@ -10,7 +12,7 @@ export default class PlayerCard extends React.Component {
   constructor(){
     super()
     this.state={
-      cardShown:false,
+      cardShown:true,
     }
   }
 
@@ -22,8 +24,16 @@ export default class PlayerCard extends React.Component {
     if (!this.state.cardShown) return null;
     const imageSource=`../../images/${this.props.card}.png`;
     return (
-      <div style={{display:'flex', margin:10}}>
-        <img style={{margin:'auto'}} src={imageSource}/>
+      <div style={{display:'flex', marginTop: '20px'}}>
+        <Card
+          className='CardComponent'
+          rol={cards[this.props.card].rol}
+          team={cards[this.props.card].team}
+          description={cards[this.props.card].description}
+          image={cards[this.props.card].image}
+          teamColorDark={cards[this.props.card].teamColorDark}
+          teamColorLight={cards[this.props.card].teamColorLight}
+        />
       </div>
     )
   }
@@ -36,7 +46,7 @@ export default class PlayerCard extends React.Component {
 
   render () {
     return (
-      <div style={{margin:15}} >
+      <div style={{marginTop:'20px', marginBottom:'20px'}} >
         <RaisedButton
           onTouchTap={() => this.showCard()}
           style={{margin: 'auto', display: 'flex', width: '50%', height: 30}}
