@@ -156,19 +156,29 @@ class Root extends Component {
           <div>ROOMS</div>
           <div>AND A</div>
           <div>BOOM</div>
+          <div
+            style={{
+              fontSize: 15,
+              fontFamily: 'Lato',
+              fontWeight: 400,
+              width: '100%',
+              color: '#e50000'
+            }}
+            >Star Wars Edition
+          </div>
         </div>
 
         <div style={buttons}>
           <RaisedButton
             style={button}
             label= 'NEW GAME'
-            default={true}
+            primary={true}
             onTouchTap={this.handleOpenNew.bind(this)}
           />
           <RaisedButton
             style={button}
             label= 'JOIN GAME'
-            default={true}
+            secondary={true}
             onTouchTap={this.handleOpenJoin.bind(this)}
           />
         </div>
