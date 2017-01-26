@@ -19,20 +19,20 @@ export default {
     teamColorLight: blueLight,
   },
   1: {
-    team: blueTeam,
-    rol: blueTeam,
-    description: 'KEEP THE PRESIDENT AWAY FROM THE BOMBER',
-    image: '/../images/empire.svg',
-    teamColorDark: blueDark,
-    teamColorLight: blueLight,
-  },
-  2: {
     team: redTeam,
     rol: 'BOMBER',
     description: 'BE WITH THE PRESIDENT',
     image: '/../images/xwing.svg',
     teamColorDark: redDark,
     teamColorLight: redLight,
+  },
+  2: {
+    team: blueTeam,
+    rol: blueTeam,
+    description: 'KEEP THE PRESIDENT AWAY FROM THE BOMBER',
+    image: '/../images/empire.svg',
+    teamColorDark: blueDark,
+    teamColorLight: blueLight,
   },
   3: {
     team: redTeam,
@@ -45,9 +45,26 @@ export default {
   4: {
     team: greyTeam,
     rol: 'GAMBLER',
-    description: 'GUESS IF RED, BLUE OR NEITHER TEAM WON',
+    description: 'AT THE END OF THE GAME, GUESS IF RED OR BLUE TEAM WON',
     image: '/../images/javaTheHutt.svg',
     teamColorDark: greyDark,
     teamColorLight: greyLight,
   },
+  5: {
+    team: blueTeam,
+    rol: 'SPY',
+    description: 'YOU ARE THE RED TEAM',
+    image: '/../images/empire.svg',
+    teamColorDark: blueDark,
+    teamColorLight: blueLight,
+  },
+  6: {
+    team: redTeam,
+    rol: 'SPY',
+    description: 'YOU ARE THE BLUE TEAM',
+    image: '/../images/rebelion.svg',
+    teamColorDark: redDark,
+    teamColorLight: redLight,
+  },
+
 }
