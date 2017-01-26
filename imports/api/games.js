@@ -1,10 +1,9 @@
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { check } from 'meteor/check';
-import {card} from './card';
 
 export const Games = new Meteor.Collection('games');
-let gameCards={};
+let stopWatch=false;
 // const gameCode = Math.floor(Math.random()*100000);
 if (Meteor.isServer) {
   // This code only runs on the server
@@ -34,7 +33,10 @@ Meteor.methods({
       gameCode,
       player:[{name:player}],
       createdAt: new Date(),
-      gameStatus: 'waitingForPlayers'
+      gameStatus: 'waitingForPlayers',
+      round:1,
+      running: false,
+      timeLeft: 180000,
     });
 
     return gameCode;
@@ -81,19 +83,38 @@ Meteor.methods({
     })
 
     // Update game
-    Games.update(game._id, { $set: { player: players, gameStatus:'preGame' } });
+    Games.update(game._id, { $set: { player: players, gameStatus:'preGame' } }) ;
   },
 
   'games.startGame'(gameCode) {
     check(gameCode, String);
     const game=(Games.findOne({gameCode:gameCode}));
     Games.update(game._id, { $set: { gameStatus:'game' } });
-
   },
-  'games.countDown'(gameCode) {
+
+  'games.toggleTimer'(gameCode) {
     check(gameCode, String);
     const game=(Games.findOne({gameCode:gameCode}));
-    Games.update(game._id, { $set: { gameStatus:'countDown' } });
+
+    const running = !game.running;
+    const timerData = {
+      running
+    }
+    if (running) {
+      // pressing play
+      timerData.playTime = Date.now()
+    } else {
+      // pressing pause
+      timerData.timeLeft = game.timeLeft - (Date.now() - game.playTime)
+    }
+    Games.update(game._id, { $set: timerData});
+  },
+
+  'games.nextRound'(gameCode) {
+    check(gameCode, String);
+    const game=(Games.findOne({gameCode:gameCode}));
+    
+    Games.update(game._id, { $set:{ timeLeft:180000 -game.round*60000, round:game.round+1}});
 
   }
 });

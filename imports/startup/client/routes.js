@@ -15,7 +15,7 @@ import Game from '../../ui/Game.jsx';
 
 export const renderRoutes = () => (
   <MuiThemeProvider>
-    <Router history={browserHistory}>
+    <Router history={browserHistory}> 
       <Route path="/" component={App}>
         <IndexRoute component={Root}/>
         <Route path="/lobby/:gameCode" component={Lobby} />

@@ -57,9 +57,7 @@ const style = {
 class PreGame extends React.Component {
 
   componentDidUpdate(prevProps, prevState) {
-
     let game = this.props.game;
-    console.log(game);
     if (game.gameStatus==='game') {
       browserHistory.push(`/game/${this.props.params.gameCode}`)
     }
@@ -143,7 +141,6 @@ class PreGame extends React.Component {
                   <List>
                     <ListItem
                       primaryText="Room 2"
-                      // leftIcon={<ActionGrade color={pinkA200} />}
                     />
                     <Divider />
                     {this.renderPlayers(2)}
@@ -152,25 +149,11 @@ class PreGame extends React.Component {
 
             </div>
           </Card>
-          <div>
-            <Card>
-              <CardHeader
-                title=''
-              />
-              <CardMedia style={{margin: 'auto'}}>
+
                 <PlayerCard
                   style={{margin: 'auto'}}
                   card={this.props.currentPlayer.card}/>
-              </CardMedia>
-              <CardHeader
-                actAsExpander={true}
-                showExpandableButton={true}
-              />
-              <CardText expandable={true}>
-                El texto de la Carta
-              </CardText>
-            </Card>
-          </div>
+
           {this.renderPlayerFeatures()}
         </div>
       </div>

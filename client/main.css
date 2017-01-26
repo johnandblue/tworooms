@@ -1,6 +1,6 @@
 /* CSS declarations go here */
 body {
-  background-color: #808080;
+  background-color: #FAFAFA;
   background-size: cover;
   margin: 0;
 
@@ -10,4 +10,15 @@ body {
   background-repeat: no-repeat;
   background-size: auto;
   height: 400px;
+}
+
+.game-status {
+  background-color: lightgray;
+  border-bottom: solid 1px gray;
+  font-size: larger;
+  display: flex;
+  padding: 10px;
+  text-align: center;;
+  flex-direction: column;
+  justify-content: space-around;
 }

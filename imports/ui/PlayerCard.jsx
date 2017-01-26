@@ -3,7 +3,6 @@ import { Meteor } from 'meteor/meteor';
 import { createContainer } from 'meteor/react-meteor-data';
 import { Games } from '../api/games.js';
 import RaisedButton from 'material-ui/RaisedButton';
-import {card} from '../api/card';
 
 Meteor.subscribe('games');
 
@@ -16,26 +15,32 @@ export default class PlayerCard extends React.Component {
   }
 
   showCard() {
-    this.setState({cardShown: true})
+    this.setState({cardShown: !this.state.cardShown})
   }
 
   renderCard(){
     if (!this.state.cardShown) return null;
     const imageSource=`../../images/${this.props.card}.png`;
     return (
-      <div style={{display:'flex', margin:'auto'}}>
+      <div style={{display:'flex', margin:10}}>
         <img style={{margin:'auto'}} src={imageSource}/>
       </div>
     )
   }
+  label(){
+    if (!this.state.cardShown) {
+      return "SHOW CARD";
+    }
+    return "HIDE CARD"
+  }
 
   render () {
     return (
-      <div>
+      <div style={{margin:15}} >
         <RaisedButton
           onTouchTap={() => this.showCard()}
-          style={{margin: 'auto', display: 'flex', width: '25%', height: 60}}
-          label="Show Card"
+          style={{margin: 'auto', display: 'flex', width: '50%', height: 30}}
+          label={this.label()}
           primary={true}
         />
         {this.renderCard()}
