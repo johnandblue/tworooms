@@ -41,11 +41,13 @@ Meteor.methods({
 
     return gameCode;
   },
+
   'games.addPlayer'(gameCode, player) {
     check(player, String);
     const result=(Games.findOne({gameCode:gameCode}));
     Games.update(result._id, { $push: { player: { name: player } } });
   },
+
   'games.shuffle'(gameCode) {
     check(gameCode, String);
     const game=(Games.findOne({gameCode:gameCode}));
@@ -70,6 +72,10 @@ Meteor.methods({
       assignedPlayers += 1;
     }
     // Assign special cards if needed
+    if (players.length > 7) {
+      deck.push(5,6);
+      assignedPlayers += 2;
+    }
 
     // Padding
     for (let i = players.length - assignedPlayers; i > 0; i-=2) {
@@ -113,7 +119,7 @@ Meteor.methods({
   'games.nextRound'(gameCode) {
     check(gameCode, String);
     const game=(Games.findOne({gameCode:gameCode}));
-    
+
     Games.update(game._id, { $set:{ timeLeft:180000 -game.round*60000, round:game.round+1}});
 
   }
