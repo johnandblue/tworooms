@@ -1,8 +1,8 @@
 # Two Rooms and a Boom (Star Wars Edition)
 
 ## Synopsis
+
 - Web app based on the famous social card game Two Rooms and a Boom, created as a responsive app for mobile devices.
--
 
 ## App Screenshots
 ![Alt text](http://i.imgur.com/kTo5GhN.png "Home Screen")
