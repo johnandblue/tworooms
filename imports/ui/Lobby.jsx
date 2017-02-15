@@ -88,7 +88,7 @@ const iconButtonElement = (
             style={{margin: 'auto', display: 'flex', width: '100%', height: 60}}
             label="Go to your Room"
             onTouchTap={() => this.goToPregame()}
-            backgroundColor=  "#0b438b"
+            backgroundColor=  "#BEDB39"
             labelColor="white"
           />
         )
@@ -133,7 +133,11 @@ const iconButtonElement = (
         <div style={containerStyle}>
           <div style={{margin: 'auto', width: 'inherit'}}>
             <Card style={{margin: 'auto'}}>
-              <List >
+              <List
+                style={{
+                  backgroundColor: "#BEDB39",
+                  color:'white'
+                }}>
                 <ListItem
                   primaryText="Code"
                   secondaryText={this.props.params.gameCode}

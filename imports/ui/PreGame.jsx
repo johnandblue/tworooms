@@ -104,7 +104,7 @@ const iconButtonElement = (
             onTouchTap={() => this.goToGame()}
             style={{margin: 'auto', display: 'flex', width: '100%', height: 60}}
             label="Start Game"
-            backgroundColor=  "#0b438b"
+            backgroundColor=  "#BEDB39"
             labelColor="white"
           />
         )
@@ -144,7 +144,7 @@ const iconButtonElement = (
           <Tabs
             style={{
               height: 60 ,
-              backgroundColor:  "#0b438b",
+              backgroundColor:  "#BEDB39",
               color:'white'
             }}
             onChange={this.handleChange.bind(this)}
@@ -152,13 +152,13 @@ const iconButtonElement = (
             >
               <Tab
                 style={{
-                  backgroundColor:  "#0b438b",
+                  backgroundColor:  "#BEDB39",
                   color:'white'
                 }}
                  label="Room Distribution" value={0} />
               <Tab label="Card"
                 style={{
-                  backgroundColor:  "#0b438b",
+                  backgroundColor:  "#BEDB39",
                   color:'white'
                 }}
                 value={1} />
@@ -169,10 +169,21 @@ const iconButtonElement = (
               onChangeIndex={this.handleChange.bind(this)}
               >
                 <div style={styles.slide}>
-                  <div style={{margin: 'auto', width: 'inherit'}}>
-                    <Card style={{margin: 'auto'}}>
-                      <List>
+                  <div style={{
+                    margin: 'auto',
+                    width: 'inherit'}}>
+                    <Card style={{
+
+                      margin: 'auto'}}>
+                      <List
+                        style={{
+                          padding: 0
+                        }}>
                         <ListItem
+                          style={{
+                            backgroundColor: "#BEDB39",
+                            color:'white'
+                          }}
                           primaryText="Code"
                           secondaryText={this.props.params.gameCode}
                           rightIconButton={rightIconMenu}
