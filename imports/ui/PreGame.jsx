@@ -112,8 +112,9 @@ const iconButtonElement = (
       return (
         <RaisedButton
           style={{margin: 'auto', display: 'flex', width: '100%'}}
-          label="Waiting for admin to Start the game..."
-          primary={true}
+          label="Waiting to Start..."
+          backgroundColor=  "#BEDB39"
+          labelColor="white"
         />
       )
     }
