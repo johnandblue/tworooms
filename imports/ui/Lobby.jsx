@@ -11,6 +11,7 @@ import Avatar from 'material-ui/Avatar';
 import { grey400, pinkA200, transparent} from 'material-ui/styles/colors';
 import IconButton from 'material-ui/IconButton';
 import CircularProgress from 'material-ui/CircularProgress';
+import Colors from '../../client/colors';
 
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import IconMenu from 'material-ui/IconMenu';
@@ -87,7 +88,8 @@ const iconButtonElement = (
             style={{margin: 'auto', display: 'flex', width: '100%', height: 60}}
             label="Go to your Room"
             onTouchTap={() => this.goToPregame()}
-            primary={true}
+            backgroundColor=  "#0b438b"
+            labelColor="white"
           />
         )
       }

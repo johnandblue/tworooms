@@ -48,10 +48,11 @@ export default class PlayerCard extends React.Component {
     return (
       <div style={{marginTop:'20px', marginBottom:'20px'}} >
         <RaisedButton
+          backgroundColor=  "#0b438b"
+          labelColor="white"          
           onTouchTap={() => this.showCard()}
           style={{margin: 'auto', display: 'flex', width: '50%', height: 30}}
           label={this.label()}
-          primary={true}
         />
         {this.renderCard()}
       </div>

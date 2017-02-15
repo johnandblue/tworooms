@@ -24,6 +24,7 @@ import SwipeableViews from 'react-swipeable-views';
 import FontIcon from 'material-ui/FontIcon';
 
 import PauseIcon from 'material-ui/svg-icons/av/pause-circle-outline';
+import PlayIcon from 'material-ui/svg-icons/av/play-circle-outline';
 
 const iconButtonElement = (
   <IconButton touch={true} tooltip="more" tooltipPosition="bottom-left">
@@ -169,136 +170,154 @@ class Game extends React.Component {
 
   startPauselabel() {
     if (this.props.game.running) {
-      return <PauseIcon />;
-    }
-
-    return <PauseIcon />
-  }
-
-  //======================================================
-  // RENDERING
-  //======================================================
-
-
-  renderPlayerFeatures() {
-
-    const admin = localStorage.getItem('admin');
-    if (admin) {
-      return (
-        <div style={{
-          margin: 'auto',
-          display: 'flex'
-        }}>
-
-        <RaisedButton style={{
-          margin: 'auto',
-          display: 'flex',
-          width: '90%',
-          height: 60
-        }} label={this.startPauselabel()}
-        onTouchTap={() => this.toggleTimer()} primary={true}/>
-        <RaisedButton style={{
-          margin: 'auto',
-          display: 'flex',
-          width: '90%',
-          height: 60,
-          color: 'blue'
-        }}
-        secondary={true}
-        label={this.nextGameLabel()}
-        onTouchTap={() => this.nextRound()} primary={true}/>
-
-      </div>
-    )
-  }
-  return null;
-
-}
-
-renderTimer () {
-  if (!this.state) return null
-  if (this.props.game.running){
-    return (
-      <div>
-
-        <span>Time left: {`${this.state.minutes}:${this.state.seconds}`}
-        </span>
-      </div>)
-    }
-    return (
-      <div>
-        <span>Time left: {`${this.state.minutes}:${this.state.seconds}`}
-        </span>
-      </div>)
-    }
-    renderStatusBar(){
-      if (!this.state) return null
-      if (this.props.game.running){
-        return (
-          <div>
-            <Timer
-              roundTime={this.props.game.timeLeft}
-              progress={(4-this.props.game.round)*60000/this.props.game.timeLeft}
-            />
-          </div>)
-        }
+      return <PauseIcon style={{height: 40,
+        width: 40, margin: 10}} color="white"/>;
       }
-      render() {
-        return (
-          <div>
-            <Tabs
-              style={{height: 60}}
-              onChange={this.handleChange.bind(this)}
-              value={this.state.slideIndex}
-              >
-                <Tab label="Game Status" value={0} />
-                <Tab label="Card" value={1} />
+      return <PlayIcon style={{height: 40,
+        width: 40, margin: 10}} color="white" />
+      }
 
-              </Tabs>
-              <SwipeableViews
-                index={this.state.slideIndex}
-                onChangeIndex={this.handleChange.bind(this)}
-                >
-                  <div style={styles.slide}>
-
-                    <div className="game-status">ROUND { this.props.game.round}</div>
-                    <div className="game-status">{this.renderTimer()}</div>
-                    <div className="game-status">
-                      {`Round time ${4-this.props.game.round} minutes`}
+      //======================================================
+      // RENDERING
+      //======================================================
 
 
-                    </div>
-                  </div>
-                  <div style={styles.slide}>
+      renderPlayerFeatures() {
 
-                    <PlayerCard
-                      style={{margin: 'auto'}}
-                      card={this.props.currentPlayer.card}/>
-                    </div>
-                  </SwipeableViews>
+        const admin = localStorage.getItem('admin');
+        if (admin) {
+          return (
+            <div style={{
+              margin: 'auto',
+              display: 'flex'
+            }}>
 
-                  <div className='bottom-info'>
-                    <div style={{padding:10}}>
-                    {this.renderStatusBar()}
-                    </div>
-                    {this.renderPlayerFeatures()}
-                  </div>
+            <RaisedButton
+              backgroundColor=  "#0b438b"
+              labelColor="white"
+              style={{
+                margin: 'auto',
+                display: 'flex',
+                width: '90%',
+                height: 60
+              }} label={this.startPauselabel()}
+              onTouchTap={() => this.toggleTimer()} />
+              <RaisedButton
+                backgroundColor=  "#0b438b"
+                labelColor="white"
+                style={{
+                  margin: 'auto',
+                  display: 'flex',
+                  width: '90%',
+                  height: 60,
+                  color: 'blue'
+                }}
+                label={this.nextGameLabel()}
+                onTouchTap={() => this.nextRound()} />
 
-                </div>
-              );
-            }
+              </div>
+            )
           }
+          return null;
+
+        }
+
+        renderTimer () {
+          if (!this.state) return null
+          if (this.props.game.running){
+            return (
+              <div>
+
+                <span>Time left: {`${this.state.minutes}:${this.state.seconds}`}
+                </span>
+              </div>)
+            }
+            return (
+              <div>
+                <span>Time left: {`${this.state.minutes}:${this.state.seconds}`}
+                </span>
+              </div>)
+            }
+            renderStatusBar(){
+              if (!this.state) return null
+              if (this.props.game.running){
+                return (
+                  <div>
+                    <Timer
+                      roundTime={this.props.game.timeLeft}
+                      progress={(4-this.props.game.round)*60000/this.props.game.timeLeft}
+                    />
+                  </div>)
+                }
+              }
+              render() {
+                return (
+                  <div>
+                    <Tabs
+                      style={{
+                        height: 60,
+                        backgroundColor:  "#0b438b",
+                        color:'white'}}
+                        onChange={this.handleChange.bind(this)}
+                        value={this.state.slideIndex}
+                        >
+                          <Tab label="Game Status"   style={{
+                            backgroundColor:  "#0b438b",
+                            color:'white'
+                          }}
+                          value={0} />
+                          <Tab
+                            style={{
+                              backgroundColor:  "#0b438b",
+                              color:'white'
+                            }}
+                            label="Card" value={1} />
+
+                          </Tabs>
+                          <SwipeableViews
+                            index={this.state.slideIndex}
+                            onChangeIndex={this.handleChange.bind(this)}
+                            >
+                              <div style={styles.slide}>
+
+                                <div className="game-status">ROUND { this.props.game.round}</div>
+                                <div className="game-status">{this.renderTimer()}</div>
+                                <div className="game-status">
+                                  {`Round time ${4-this.props.game.round} minutes`}
 
 
-          export default createContainer(ownProps => {
-            const gameCode = ownProps.params.gameCode;
-            const gameFetch = Games.find({gameCode: gameCode}).fetch();
-            const game = gameFetch.length > 0
-            ? gameFetch[0]
-            : {};
-            const currentPlayer = game.player
-            ? game.player.find(player => player.name === localStorage.getItem('name'))
-            : {};
+                                </div>
+                              </div>
+                              <div style={styles.slide}>
 
-            return {name: localStorage.getItem('name'), game, currentPlayer};
-          }, Game);
+                                <PlayerCard
+                                  style={{margin: 'auto'}}
+                                  card={this.props.currentPlayer.card}/>
+                                </div>
+                              </SwipeableViews>
+
+                              <div className='bottom-info'>
+                                <div style={{padding:10}}>
+                                  {this.renderStatusBar()}
+                                </div>
+                                {this.renderPlayerFeatures()}
+                              </div>
+
+                            </div>
+                          );
+                        }
+                      }
+
+
+                      export default createContainer(ownProps => {
+                        const gameCode = ownProps.params.gameCode;
+                        const gameFetch = Games.find({gameCode: gameCode}).fetch();
+                        const game = gameFetch.length > 0
+                        ? gameFetch[0]
+                        : {};
+                        const currentPlayer = game.player
+                        ? game.player.find(player => player.name === localStorage.getItem('name'))
+                        : {};
+
+                        return {name: localStorage.getItem('name'), game, currentPlayer};
+                      }, Game);
