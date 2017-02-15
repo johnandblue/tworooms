@@ -1,18 +1,18 @@
 import React from 'react';
 import LinearProgress from 'material-ui/LinearProgress';
 
-export default class Tim extends React.Component {
+export default class Timer extends React.Component {
 
   constructor(props) {
     super(props);
 
     this.state = {
-      completed: 0,
+      completed:(this.props.progress-1)*100 ,
     };
   }
 
   componentDidMount() {
-    this.timer = setTimeout(() => this.progress(5), 1000);
+    this.timer = setTimeout(() => this.progress(this.state.completed), 1000);
   }
 
   componentWillUnmount() {
@@ -24,14 +24,14 @@ export default class Tim extends React.Component {
       this.setState({completed: 100});
     } else {
       this.setState({completed});
-      const diff =  this.props.roundTime/100000;
+      const diff =  100000/this.props.roundTime;
       this.timer = setTimeout(() => this.progress(completed + diff), 1000);
     }
   }
 
   render() {
     return (
-      <LinearProgress mode="determinate" value={this.state.completed} />
+      <LinearProgress color='red' style={{height:10}} mode="determinate" value={this.state.completed} />
     );
   }
 }

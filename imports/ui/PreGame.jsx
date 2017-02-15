@@ -104,7 +104,8 @@ const iconButtonElement = (
             onTouchTap={() => this.goToGame()}
             style={{margin: 'auto', display: 'flex', width: '100%', height: 60}}
             label="Start Game"
-            primary={true}
+            backgroundColor=  "#BEDB39"
+            labelColor="white"
           />
         )
       }
@@ -130,99 +131,124 @@ const iconButtonElement = (
             primaryText={`${player.name}${you}`}
             leftAvatar={<Avatar src="https://storage.googleapis.com/material-icons/external-assets/v4/icons/svg/ic_face_black_24px.svg" />}
           />
-      )
-    });
-  }
-
-  render () {
-
-    const game = this.props.game;
-
-    return (
-      <div >
-        <Tabs
-          style={{height: 60}}
-          onChange={this.handleChange.bind(this)}
-          value={this.state.slideIndex}
-          >
-            <Tab label="Room Distribution" value={0} />
-            <Tab label="Card" value={1} />
-
-          </Tabs>
-          <SwipeableViews
-            index={this.state.slideIndex}
-            onChangeIndex={this.handleChange.bind(this)}
-            >
-              <div style={styles.slide}>
-        <div style={{margin: 'auto', width: 'inherit'}}>
-          <Card style={{margin: 'auto'}}>
-            <List>
-              <ListItem
-                primaryText="Code"
-                secondaryText={this.props.params.gameCode}
-                rightIconButton={rightIconMenu}
-                leftIcon={<ActionGrade color={pinkA200} />}
-              />
-              <Divider />
-            </List>
-
-            <div className="columns" style={{display:'flex', flexDirection:'row',}}>
-              <div style={{flex: 1}}>
-                <ListItem
-                  primaryText="Room 1"
-                />
-                <List className='scrollable-list'>
-
-                  <Divider />
-                  {this.renderPlayers(1)}
-                </List>
-              </div>
-
-              <div style={{flex:0, width:1}}></div>
-
-              <div style={{marginBottom: 5, borderLeft: '1px solid #cf8d8d', flex: 1}}>
-                <ListItem
-                  primaryText="Room 2"
-                />
-                <List className='scrollable-list'>
-
-                  <Divider />
-                  {this.renderPlayers(2)}
-                </List>
-              </div>
-
-            </div>
-          </Card>
-        </div>
-      </div>
-
-        <div style={styles.slide}>
-          <PlayerCard
-            style={{margin: 'auto'}}
-            card={this.props.currentPlayer.card}/>
-
-            </div>
-
-        </SwipeableViews>
-        <div className='bottom-info'>
-          {this.renderPlayerFeatures()}
-        </div>
-        </div>
-      )
+        )
+      });
     }
-  }
 
-  export default createContainer(ownProps => {
-    const gameCode = ownProps.params.gameCode;
-    const gameFetch = Games.find({gameCode: gameCode}).fetch();
-    const game = gameFetch.length > 0 ? gameFetch[0] : {};
-    const currentPlayer = game.player ?
-    game.player.find(player =>  player.name === localStorage.getItem('name')) :
-    {};
+    render () {
 
-    return {
-      name: localStorage.getItem('name'),
-      game,
-      currentPlayer,
-    };
-  }, PreGame);
+      const game = this.props.game;
+
+      return (
+        <div >
+          <Tabs
+            style={{
+              height: 60 ,
+              backgroundColor:  "#BEDB39",
+              color:'white'
+            }}
+            onChange={this.handleChange.bind(this)}
+            value={this.state.slideIndex}
+            >
+              <Tab
+                style={{
+                  backgroundColor:  "#BEDB39",
+                  color:'white'
+                }}
+                 label="Room Distribution" value={0} />
+              <Tab label="Card"
+                style={{
+                  backgroundColor:  "#BEDB39",
+                  color:'white'
+                }}
+                value={1} />
+
+            </Tabs>
+            <SwipeableViews
+              index={this.state.slideIndex}
+              onChangeIndex={this.handleChange.bind(this)}
+              >
+                <div style={styles.slide}>
+                  <div style={{
+                    margin: 'auto',
+                    width: 'inherit'}}>
+                    <Card style={{
+
+                      margin: 'auto'}}>
+                      <List
+                        style={{
+                          padding: 0
+                        }}>
+                        <ListItem
+                          style={{
+                            backgroundColor: "#BEDB39",
+                            color:'white'
+                          }}
+                          primaryText="Code"
+                          secondaryText={this.props.params.gameCode}
+                          rightIconButton={rightIconMenu}
+                          leftIcon={<ActionGrade color={pinkA200} />}
+                        />
+                        <Divider />
+                      </List>
+
+                      <div className="columns" style={{display:'flex', flexDirection:'row',}}>
+                        <div style={{flex: 1}}>
+                          <ListItem
+                            primaryText="Room 1"
+                          />
+                          <List className='scrollable-list'>
+
+                            <Divider />
+                            {this.renderPlayers(1)}
+                          </List>
+                        </div>
+
+                        <div style={{flex:0, width:1}}></div>
+
+                        <div style={{marginBottom: 5, borderLeft: '1px solid #cf8d8d', flex: 1}}>
+                          <ListItem
+                            primaryText="Room 2"
+                          />
+                          <List className='scrollable-list'>
+
+                            <Divider />
+                            {this.renderPlayers(2)}
+                          </List>
+                        </div>
+
+                      </div>
+                    </Card>
+                  </div>
+                </div>
+
+                <div style={styles.slide}>
+                  <PlayerCard
+                    style={{margin: 'auto'}}
+                    card={this.props.currentPlayer.card}/>
+
+                  </div>
+
+                </SwipeableViews>
+                <div className='bottom-info'>
+                  {this.renderPlayerFeatures()}
+                </div>
+              </div>
+            )
+          }
+        }
+
+        export default createContainer(ownProps => {
+          const gameCode = ownProps.params.gameCode;
+          const gameFetch = Games.find({gameCode: gameCode}).fetch();
+          const game = gameFetch.length > 0 ? gameFetch[0] : {};
+          const currentPlayer = game.player ?
+          game.player.find(player =>  player.name === localStorage.getItem('name')) :
+          {};
+
+          return {
+            name: localStorage.getItem('name'),
+            game,
+            currentPlayer,
+          };
+        }, PreGame);
