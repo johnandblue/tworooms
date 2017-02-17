@@ -7,7 +7,7 @@ import {browserHistory } from 'react-router';
 import '../../client/main.css';
 import { Games } from '../api/games.js';
 import Divider from 'material-ui/Divider';
-
+import Colors from '../../client/colors';
 import { Meteor } from 'meteor/meteor';
 import { createContainer } from 'meteor/react-meteor-data';
 
@@ -54,7 +54,7 @@ const text={
   // border: '1px solid blue',
   fontWeight: '700',
   fontFamily: 'Work Sans',
-  color: '#0b438b',
+  color: '#FD7400',
   textAlign: 'center',
   // margin: 'auto',
   fontSize: 60,
@@ -118,33 +118,37 @@ class Root extends Component {
     const actionsNew = [
       <RaisedButton
         style={{display: 'flex', margin:'auto', height: 60}}
-        label="Cancel"
-        secondary={true}
-        onTouchTap={this.handleClose.bind(this)}
+        label="OK"
+        backgroundColor=  {Colors.primary}
+        labelColor="white"
+        keyboardFocused={true}
+        onTouchTap={this.createNewGame.bind(this)}
       />,
       <RaisedButton
         style={{display: 'flex', margin:'auto', height: 60}}
-        label="OK"
-        primary={true}
-        keyboardFocused={true}
-        onTouchTap={this.createNewGame.bind(this)}
+        label="Cancel"
+        // secondary={true}
+        onTouchTap={this.handleClose.bind(this)}
       />,
     ];
 
     const actionsJoin = [
       <RaisedButton
         style={{display: 'flex', margin:'auto', height: 60}}
-        label="Cancel"
-        secondary={true}
-        onTouchTap={this.handleClose.bind(this)}
+        label="Submit"
+        labelColor="white"
+        label="OK"
+        backgroundColor=  {Colors.primary}
+        // primary={true}
+        keyboardFocused={true}
+        onTouchTap={this.joinGame.bind(this)}
       />,
       <Divider />,
       <RaisedButton
         style={{display: 'flex', margin:'auto', height: 60}}
-        label="Submit"
-        primary={true}
-        keyboardFocused={true}
-        onTouchTap={this.joinGame.bind(this)}
+        label="Cancel"
+        // secondary={true}
+        onTouchTap={this.handleClose.bind(this)}
       />,
     ];
 
@@ -162,7 +166,7 @@ class Root extends Component {
               fontFamily: 'Lato',
               fontWeight: 400,
               width: '100%',
-              color: '#e50000'
+              color: Colors.tertiary
             }}
             >Star Wars Edition
           </div>
@@ -170,15 +174,19 @@ class Root extends Component {
 
         <div style={buttons}>
           <RaisedButton
-            style={button}
+            backgroundColor=  {Colors.primary}
+            labelColor="white"
             label= 'NEW GAME'
-            primary={true}
+            style={button}
             onTouchTap={this.handleOpenNew.bind(this)}
           />
           <RaisedButton
+            backgroundColor=  {Colors.tertiary }
+            labelColor="white"
+            label= 'NEW GAME'
             style={button}
             label= 'JOIN GAME'
-            secondary={true}
+            // secondary={true}
             onTouchTap={this.handleOpenJoin.bind(this)}
           />
         </div>

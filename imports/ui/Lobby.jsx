@@ -11,6 +11,7 @@ import Avatar from 'material-ui/Avatar';
 import { grey400, pinkA200, transparent} from 'material-ui/styles/colors';
 import IconButton from 'material-ui/IconButton';
 import CircularProgress from 'material-ui/CircularProgress';
+import Colors from '../../client/colors';
 
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import IconMenu from 'material-ui/IconMenu';
@@ -87,7 +88,8 @@ const iconButtonElement = (
             style={{margin: 'auto', display: 'flex', width: '100%', height: 60}}
             label="Go to your Room"
             onTouchTap={() => this.goToPregame()}
-            primary={true}
+            backgroundColor=  "#BEDB39"
+            labelColor="white"
           />
         )
       }
@@ -95,9 +97,9 @@ const iconButtonElement = (
         <div >
           <RaisedButton
             style={{margin: 'auto', display: 'flex', width: '100%'}}
-            label="Waiting for admin to Start the game..."
-            primary={true}
-          />
+            label="Waiting to Start..."
+            backgroundColor=  "#BEDB39"
+            labelColor="white"          />
         </div>
       )
     }
@@ -131,7 +133,11 @@ const iconButtonElement = (
         <div style={containerStyle}>
           <div style={{margin: 'auto', width: 'inherit'}}>
             <Card style={{margin: 'auto'}}>
-              <List >
+              <List
+                style={{
+                  backgroundColor: "#BEDB39",
+                  color:'white'
+                }}>
                 <ListItem
                   primaryText="Code"
                   secondaryText={this.props.params.gameCode}

@@ -34,10 +34,6 @@ export default {
     teamColorDark: blueDark,
     teamColorLight: blueLight,
   },
-<<<<<<< HEAD
-
-=======
->>>>>>> development
   3: {
     team: redTeam,
     rol: redTeam,

@@ -13,12 +13,13 @@ const style={
           // width: '280px',
           // height: '400px',
           display: 'flex',
-          flexDirection: 'column'
+          flexDirection: 'column',
+          boxShadow: '5px 5px 5px',
         }
 
         const down={
           // border: 'red solid 5px',
-          backgroundColor: '#0b438b',
+          backgroundColor: '#004358',
           marginTop: '0px',
           borderBottomRightRadius: '20px',
           borderBottomLeftRadius: '20px',
@@ -51,7 +52,7 @@ const style={
 
         const topRight={
           // border: 'purple solid 5px',
-          backgroundColor: '#0b438b',
+          backgroundColor: '#004358',
           marginTop: '-0px',
           borderTopRightRadius: '20px',
           width: '280px',
