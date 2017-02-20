@@ -9,7 +9,6 @@ import renderFaces from './Faces';
 
 const borderColor={};
 
-
 class App extends Component {
 
   constructor(props) {
