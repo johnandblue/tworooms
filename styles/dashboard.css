@@ -1,0 +1,36 @@
+.header {
+  height: 200px;
+  width: 100%;
+  top: 0;
+  position: fixed;
+}
+
+.container {
+  display: flex;
+  width: 100%;
+  position: fixed;
+  justify-content: space-around;
+  align-items: center;
+  z-index: -1;
+  padding-bottom: 250px;
+  height: 100%;
+
+}
+
+.footer {
+  height: 200px;
+  width: 100%;
+  bottom: 0;
+  position: fixed;
+}
+
+.score {
+  height: 200px;
+  border-right: 4px solid rgba(0, 0, 0, 0.15);
+  padding-right: 350px;
+  font-size: 180px;
+  height: 280px;
+  padding-top: 50px;
+  position: fixed;
+  left:470px;
+}
