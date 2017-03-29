@@ -22,6 +22,7 @@ The app is deployed in heroku, ready to be used:
 - Also you can install it easily cloning the repo and from the root folder:
 `$ meteor npm install`
 `$ npm install`
+`$ meteor`
 
 ## Tech Stack
 
