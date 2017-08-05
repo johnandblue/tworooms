@@ -8,3 +8,4 @@ before_install:
   - export PATH="$HOME/.meteor:$PATH"
   - "meteor npm install"
 
+script: "meteor test --once --driver-package dispatch:mocha"
