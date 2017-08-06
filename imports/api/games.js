@@ -1,10 +1,8 @@
 import { Meteor } from 'meteor/meteor';
-import { Mongo } from 'meteor/mongo';
 import { check } from 'meteor/check';
 
 export const Games = new Meteor.Collection('games');
 let stopWatch=false;
-// const gameCode = Math.floor(Math.random()*100000);
 if (Meteor.isServer) {
   // This code only runs on the server
 
@@ -14,15 +12,7 @@ if (Meteor.isServer) {
 }
 
 function shuffle (playersArray) {
-  var i = 0
-  var j = 0
-  var temp = null
-  for (i = playersArray.length - 1; i > 0; i -= 1) {
-    j = Math.floor(Math.random() * (i + 1))
-    temp = playersArray[i]
-    playersArray[i] = playersArray[j]
-    playersArray[j] = temp
-  }
+  playersArray = playersArray.sort(() => 0.5 - Math.random());
 }
 
 Meteor.methods({
@@ -48,6 +38,36 @@ Meteor.methods({
     Games.update(result._id, { $push: { player: { name: player } } });
   },
 
+  'games.createDeck'(numPlayers) {
+    // Create deck
+    const deck = [0,1];
+
+    // Assign gambler if it's the case
+    if (numPlayers%2 === 1){
+      deck.push(4);
+    }
+
+    const specialSets = [
+      [5,6], // spies
+      [7,8], // doctor+engineer
+      [9,10], // tuesday knight+dr boom
+    ];
+
+    // generate random number between 0 and the number of special card sets
+    let specialFill = Math.round(Math.random()*specialSets.length);
+    // number must be less than or equal to half the number of unassigned players
+    specialFill = specialFill <= (numPlayers - deck.length) ? specialFill : (numPlayers - deck.length);
+
+    if (specialFill > 0) {
+      const specials = specialSets.sort(() => 0.5 - Math.random()).slice(0,specialFill);
+      specials.forEach(el => deck.push(el[0],el[1]));
+    } else {
+      while (deck.length < numPlayers) deck.push(2,3);
+    }
+
+    return deck;
+  },
+
   'games.shuffle'(gameCode) {
     check(gameCode, String);
     const game=(Games.findOne({gameCode:gameCode}));
@@ -60,33 +80,15 @@ Meteor.methods({
     players = players.map(player => {
       player.room = room1.includes(player) ? 1:2;
       return player
-    })
+    });
 
-    // Create deck
-    const deck = []
-    deck.push(0,1)
-    let assignedPlayers = 2
-    // Assign gambler if it's the case
-    if (players.length%2 === 1){
-      deck.push(4);
-      assignedPlayers += 1;
-    }
-    // Assign special cards if needed
-    if (players.length > 7) {
-      deck.push(5,6);
-      assignedPlayers += 2;
-    }
-
-    // Padding
-    for (let i = players.length - assignedPlayers; i > 0; i-=2) {
-      deck.push(2,3);
-    }
+    const deck = Meteor.call('games.createDeck', players.length);
 
     // Distribute cards
     players = players.map(player => {
       player.card = deck.splice(Math.floor(Math.random()*deck.length),1)[0];
       return player
-    })
+    });
 
     // Update game
     Games.update(game._id, { $set: { player: players, gameStatus:'preGame' } }) ;
@@ -105,7 +107,7 @@ Meteor.methods({
     const running = !game.running;
     const timerData = {
       running
-    }
+    };
     if (running) {
       // pressing play
       timerData.playTime = Date.now()
