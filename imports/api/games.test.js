@@ -33,9 +33,6 @@ if (Meteor.isServer) {
         const player1 = addPlayer(game, 'Player Name');
         player1.should.be.a('string');
         const player2 = addPlayer(game, 'Player Name');
-        console.log('gamecode',game);
-        console.log('player1',player1);
-        console.log('player2',player2);
         player2.should.not.eql(player1);
 
       });
