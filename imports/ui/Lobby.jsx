@@ -59,7 +59,8 @@ const iconButtonElement = (
 
     constructor () {
       super();
-      minPlayers = 6
+      if (Meteor.isDevelopment) { minPlayers = 4; }
+      else { minPlayers = 6;}
     }
 
     getGameInfo () {
