@@ -1,11 +1,11 @@
 import { Meteor } from 'meteor/meteor';
 import { check } from 'meteor/check';
+import { specialSets } from '../lib/specialSets';
 
 export const Games = new Meteor.Collection('games');
 let stopWatch=false;
 if (Meteor.isServer) {
   // This code only runs on the server
-
   Meteor.publish('games', function gamesPublication() {
     return Games.find();
   });
@@ -28,7 +28,6 @@ Meteor.methods({
       running: false,
       timeLeft: 180000,
     });
-
     return gameCode;
   },
 
@@ -47,24 +46,16 @@ Meteor.methods({
       deck.push(4);
     }
 
-    const specialSets = [
-      [5,6], // spies
-      [7,8], // doctor+engineer
-      [9,10], // tuesday knight+dr boom
-    ];
-
     // generate random number between 0 and the number of special card sets
     let specialFill = Math.round(Math.random()*specialSets.length);
     // number must be less than or equal to half the number of unassigned players
-    specialFill = specialFill <= (numPlayers - deck.length) ? specialFill : (numPlayers - deck.length);
+    specialFill = Math.min(specialFill, numPlayers - deck.length);
 
     if (specialFill > 0) {
       const specials = specialSets.sort(() => 0.5 - Math.random()).slice(0,specialFill);
-      specials.forEach(el => deck.push(el[0],el[1]));
-    } else {
-      while (deck.length < numPlayers) deck.push(2,3);
+       specials.forEach(el => deck.push(el[0],el[1]));
     }
-
+    while (deck.length < numPlayers) deck.push(2,3);
     return deck;
   },
 
@@ -75,11 +66,11 @@ Meteor.methods({
     // Distribute players in two rooms
     shuffle(players);
     const currentPlayers = players;
-    const index = Math.floor(currentPlayers.length / 2)
-    const room1 = currentPlayers.slice(0, index)
+    const index = Math.floor(currentPlayers.length / 2);
+    const room1 = currentPlayers.slice(0, index);
     players = players.map(player => {
       player.room = room1.includes(player) ? 1:2;
-      return player
+      return player;
     });
 
     const deck = Meteor.call('games.createDeck', players.length);
@@ -91,7 +82,7 @@ Meteor.methods({
     });
 
     // Update game
-    Games.update(game._id, { $set: { player: players, gameStatus:'preGame' } }) ;
+    Games.update(game._id, { $set: { player: players, gameStatus:'preGame' } });
   },
 
   'games.startGame'(gameCode) {
@@ -110,10 +101,10 @@ Meteor.methods({
     };
     if (running) {
       // pressing play
-      timerData.playTime = Date.now()
+      timerData.playTime = Date.now();
     } else {
       // pressing pause
-      timerData.timeLeft = game.timeLeft - (Date.now() - game.playTime)
+      timerData.timeLeft = game.timeLeft - (Date.now() - game.playTime);
     }
     Games.update(game._id, { $set: timerData});
   },
