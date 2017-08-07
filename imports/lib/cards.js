@@ -67,4 +67,38 @@ export default {
     teamColorLight: redLight,
   },
 
+  7: {
+    team: blueTeam,
+    rol: 'DOCTOR',
+    description: 'Share your identity with the President before the end of the game',
+    image: '/../images/rebelion.svg',
+    teamColorDark: blueDark,
+    teamColorLight: blueLight,
+  },
+  8: {
+    team: redTeam,
+    rol: 'ENGINEER',
+    description: 'Share your identity with the Bomber before the end of the game',
+    image: '/../images/empire.svg',
+    teamColorDark: redDark,
+    teamColorLight: redLight,
+  },
+
+  9: {
+    team: blueTeam,
+    rol: 'TUESDAY KNIGHT',
+    description: 'Share your card with the Bomber for instant win',
+    image: '/../images/rebelion.svg',
+    teamColorDark: blueDark,
+    teamColorLight: blueLight,
+  },
+  10: {
+    team: redTeam,
+    rol: 'DR BOOM',
+    description: 'Share your card with the President for instant win',
+    image: '/../images/empire.svg',
+    teamColorDark: redDark,
+    teamColorLight: redLight,
+  },
+
 }
