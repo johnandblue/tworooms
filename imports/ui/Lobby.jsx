@@ -51,13 +51,25 @@ const iconButtonElement = (
   }
 
   const style = {
-    margin:15,
+    margin: 15,
   };
 
 
   class Lobby extends React.Component {
 
-    componentDidUpdate(prevProps, prevState) {
+    constructor () {
+      super();
+      minPlayers = 6
+    }
+
+    getGameInfo () {
+      let games = this.props.games;
+      return games.filter(game =>{
+        return (this.props.params.gameCode===game.gameCode);
+      })[0];
+    }
+
+    componentDidUpdate (prevProps, prevState) {
       let games = this.props.games;
       const currentGame = games.filter(game =>{
         return (this.props.params.gameCode===game.gameCode);
@@ -66,8 +78,6 @@ const iconButtonElement = (
         browserHistory.push(`/pregame/${this.props.params.gameCode}`)
       }
     }
-
-
 
     goToPregame () {
       Meteor.call('games.shuffle',this.props.params.gameCode);
@@ -78,17 +88,25 @@ const iconButtonElement = (
     // RENDERING
     //======================================================
 
-    renderPlayerFeatures(){
-
-      const admin =localStorage.getItem('admin');
+    renderPlayerFeatures () {
+      const admin = localStorage.getItem('admin');
       if (admin) {
+        const currentGame = this.getGameInfo();
+        if(currentGame.player.length >= minPlayers) {
+          isDisabled = false;
+          text = 'Go to your room';
+        } else {
+          isDisabled = true;
+          text = 'Waiting for more players';
+        }
         return (
 
           <RaisedButton
             style={{margin: 'auto', display: 'flex', width: '100%', height: 60}}
-            label="Go to your Room"
+            label={text}
+            disabled={isDisabled}
             onTouchTap={() => this.goToPregame()}
-            backgroundColor=  "#BEDB39"
+            backgroundColor="#BEDB39"
             labelColor="white"
           />
         )
@@ -98,20 +116,17 @@ const iconButtonElement = (
           <RaisedButton
             style={{margin: 'auto', display: 'flex', width: '100%'}}
             label="Waiting to Start..."
-            backgroundColor=  "#BEDB39"
-            labelColor="white"          />
+            backgroundColor="#BEDB39"
+            labelColor="white"
+          />
         </div>
       )
     }
 
-    renderPlayers() {
-      let games = this.props.games;
-      const currentGame = games.filter(game =>{
-        return (this.props.params.gameCode===game.gameCode);
-      });
-
-      if (currentGame[0]) {
-        return currentGame[0].player.map((player, i) => {
+    renderPlayers () {
+      const currentGame = this.getGameInfo();
+      if (currentGame) {
+        return currentGame.player.map((player, i) => {
           const you = player.name === this.props.name ? ' (you)': '';
           return (
             <div key={i}>
@@ -127,8 +142,6 @@ const iconButtonElement = (
     }
 
     render () {
-
-
       return (
         <div style={containerStyle}>
           <div style={{margin: 'auto', width: 'inherit'}}>
@@ -162,7 +175,7 @@ const iconButtonElement = (
     }
   }
 
-  export default createContainer(() => {
+  export default createContainer (() => {
     return {
       name: localStorage.getItem('name'),
       gameCode: localStorage.getItem('gameCode'),
