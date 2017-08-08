@@ -50,6 +50,8 @@ const style = {
   margin: 15
 };
 
+
+
 class Lobby extends React.Component {
   constructor() {
     super();
@@ -58,6 +60,11 @@ class Lobby extends React.Component {
     } else {
       minPlayers = 6;
     }
+    this.state={
+      open:false,
+      playerName:'',
+      gameCode:''
+    }
   }
 
   getGameInfo() {
@@ -65,6 +72,33 @@ class Lobby extends React.Component {
     return games.filter(game => {
       return this.props.params.gameCode === game.gameCode;
     })[0];
+  }
+
+  handleOpenJoin () {
+    this.setState({open: true});
+  }
+
+  handleClose()  {
+    this.setState({open: false,newGame: false});
+  }
+
+  joinGame() {
+    Meteor.call('games.addPlayer', this.state.code, this.state.playerName, (err) => {
+      if (!err) {
+        localStorage.setItem('name', this.state.playerName);
+        localStorage.setItem('gameCode', this.state.code);
+      } else {
+        alert('Something bad happened.');
+      }
+      this.setState({open: false});
+    });
+  }
+
+  componentWillMount(prevProps, prevState) {
+    if (localStorage.getItem('gameCode') !== this.props.routeParams.gameCode) {
+      this.handleOpenJoin();
+      this.setState({code: this.props.routeParams.gameCode});
+    }
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -140,32 +174,76 @@ class Lobby extends React.Component {
     return null;
   }
 
+  renderPlayerForm() {
+    const actionsJoin = [
+      <RaisedButton
+        style={{display: 'flex', margin:'auto', height: 60}}
+        labelColor="white"
+        label="OK"
+        backgroundColor=  {Colors.primary}
+        keyboardFocused={true}
+        onTouchTap={this.joinGame.bind(this)}
+      />,
+      <Divider />,
+      <RaisedButton
+        style={{display: 'flex', margin:'auto', height: 60}}
+        label="Cancel"
+        // secondary={true}
+        onTouchTap={this.handleClose.bind(this)}
+      />,
+    ];
+
+    return (
+      <Dialog
+        style={{
+          margin: 'auto',
+          textAlign: 'center'
+        }}
+        actions={actionsJoin}
+        modal={true}
+        open={this.state.open}
+      >
+
+        <TextField
+          name= "player"
+          hintText="Your name (required)"
+          onChange={(event, playerName) => this.setState({playerName})}
+        />
+      </Dialog>
+    );
+  }
+
   render() {
     return (
-      <div style={containerStyle}>
-        <div style={{ margin: "auto", width: "inherit" }}>
-          <Card style={{ margin: "auto" }}>
-            <List
-              style={{
-                backgroundColor: "#BEDB39",
-                color: "white"
-              }}
-            >
-              <ListItem
-                primaryText="Code"
-                secondaryText={this.props.params.gameCode}
-                rightIconButton={rightIconMenu}
-                leftIcon={<ActionGrade color={pinkA200} />}
-              />
-            </List>
-            <Divider />
-            <List className="scrollable-list">
-              {this.renderPlayers()}
-            </List>
-          </Card>
-          <div style={{ textAlign: "center" }} />
-          <div className="bottom-info">
-            {this.renderPlayerFeatures()}
+      <div>
+        <div>
+          {this.renderPlayerForm()}
+        </div>
+        <div style={containerStyle}>
+          <div style={{ margin: "auto", width: "inherit" }}>
+            <Card style={{ margin: "auto" }}>
+              <List
+                style={{
+                  backgroundColor: "#BEDB39",
+                  color: "white"
+                }}
+              >
+                <ListItem
+                  primaryText="Code"
+                  secondaryText={this.props.params.gameCode}
+                  rightIconButton={rightIconMenu}
+                  leftIcon={<ActionGrade color={pinkA200} />}
+                />
+              </List>
+              <Divider />
+              <List className="scrollable-list">
+                {this.renderPlayers()}
+              </List>
+            </Card>
+            <div style={{ textAlign: "center" }} />
+            <div className="bottom-info">
+              {this.renderPlayerFeatures()}
+            </div>
           </div>
         </div>
       </div>
