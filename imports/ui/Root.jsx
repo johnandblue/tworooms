@@ -57,9 +57,9 @@ const text={
   color: '#FD7400',
   textAlign: 'center',
   // margin: 'auto',
-  fontSize: 60,
-  marginTop: 50,
-}
+  fontSize: 40,
+  marginTop: '15px',
+};
 
 class Root extends Component {
   constructor(){
@@ -115,9 +115,13 @@ class Root extends Component {
 
   render() {
 
+    const newActive = Boolean(!this.state.playerName.match(/\w+/));
+    const joinActive = Boolean(!this.state.playerName.match(/\w+/) || !this.state.code.match(/\w+/));
+
     const actionsNew = [
       <RaisedButton
         style={{display: 'flex', margin:'auto', height: 60}}
+        disabled={newActive}
         label="OK"
         backgroundColor=  {Colors.primary}
         labelColor="white"
@@ -131,10 +135,10 @@ class Root extends Component {
         onTouchTap={this.handleClose.bind(this)}
       />,
     ];
-
     const actionsJoin = [
       <RaisedButton
         style={{display: 'flex', margin:'auto', height: 60}}
+        disabled={joinActive}
         label="Submit"
         labelColor="white"
         label="OK"
@@ -168,7 +172,7 @@ class Root extends Component {
               width: '100%',
               color: Colors.tertiary
             }}
-            >Star Wars Edition
+          >Star Wars Edition
           </div>
         </div>
 
@@ -186,7 +190,6 @@ class Root extends Component {
             label= 'NEW GAME'
             style={button}
             label= 'JOIN GAME'
-            // secondary={true}
             onTouchTap={this.handleOpenJoin.bind(this)}
           />
         </div>
@@ -196,47 +199,42 @@ class Root extends Component {
               margin: 'auto',
               textAlign: 'center'
             }}
-            title="Please, type your username"
             actions={actionsNew}
             modal={true}
             open={this.state.newGame}
-            >
+          >
 
-              <TextField
-                name= "player"
-                hintText="Player"
-                floatingLabelText="Insert your name here"
-                floatingLabelFixed={true}
-                onChange={(event, playerName) => this.setState({playerName})}
-              />
-            </Dialog>
+            <TextField
+              name= "player"
+              hintText="Your name (required)"
+              onChange={(event, playerName) => this.setState({playerName})}
+            />
+          </Dialog>
 
-            <Dialog
-              style={{margin: 'auto', textAlign: 'center'}}
-              title="Insert your Username and Game Code"
-              actions={actionsJoin}
-              modal={true}
-              open={this.state.open}
-              >
-                <TextField
-                  name= "code"
-                  hintText="Code"
-                  floatingLabelText="Insert your code here"
-                  floatingLabelFixed={true}
-                  onChange={(event, code) => this.setState({code})}
-                />
-                <TextField
-                  name= "player"
-                  hintText="Player"
-                  floatingLabelText="Insert your name here"
-                  floatingLabelFixed={true}
-                  onChange={(event, playerName) => this.setState({playerName})}
-                />
-                <br />
-              </Dialog>
-            </div>
-          </div>
-        );
+          <Dialog
+            style={{margin: 'auto', textAlign: 'center'}}
+            actions={actionsJoin}
+            modal={true}
+            open={this.state.open}
+          >
+            <TextField
+              name= "player"
+              hintText="Your name (required)"
+              type="text"
+              onChange={(event, playerName) => this.setState({playerName})}
+            />
+            <TextField
+              name= "code"
+              hintText="Game code (required)"
+              type="text"
+              onChange={(event, code) => this.setState({code})}
+            />
+            <br />
+          </Dialog>
+        </div>
+      </div>
+    );
+
       }
     }
 
