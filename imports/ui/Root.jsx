@@ -72,6 +72,9 @@ class Root extends Component {
     }
   }
 
+  componentWillMount () {
+    localStorage.removeItem('admin');
+  }
 
   handleOpenNew () {
     this.setState({newGame: true});

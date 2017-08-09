@@ -141,6 +141,10 @@ class Game extends React.Component {
     }
   }
 
+  componentWillUnmount() {
+    localStorage.removeItem('admin');
+  }
+
   nextRound(){
     Meteor.call('games.nextRound', this.props.params.gameCode);
 
