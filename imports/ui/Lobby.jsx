@@ -80,6 +80,7 @@ class Lobby extends React.Component {
 
   handleClose()  {
     this.setState({open: false,newGame: false});
+    browserHistory.push('/');
   }
 
   joinGame() {
@@ -176,12 +177,15 @@ class Lobby extends React.Component {
   }
 
   renderPlayerForm() {
+
+    const joinActive = Boolean(!this.state.playerName.match(/\w+/) || !this.state.code.match(/\w+/));
     const actionsJoin = [
       <RaisedButton
         style={{display: 'flex', margin:'auto', height: 60}}
-        labelColor="white"
+        disabled={joinActive}
         label="OK"
         backgroundColor=  {Colors.primary}
+        labelColor="white"
         keyboardFocused={true}
         onTouchTap={this.joinGame.bind(this)}
       />,
