@@ -1,36 +1,17 @@
-/* CSS declarations go here */
-body {
-  background-color: #004358;
-  background-size: cover;
+* {
+  font-family: Raleway, serif;
+}
+
+body , html , #render-target {
   margin: 0;
-  font-family:"Work Sans"
-
-}
-.card-container{
-  background-repeat: no-repeat;
-  background-size: auto;
-  height: 400px;
+  height: 100%;
 }
 
-.game-status {
-  border-bottom: solid 1px gray;
-  font-size: larger;
-  display: flex;
-  padding: 40px;
-  text-align: center;;
-  flex-direction: column;
-  justify-content: space-around;
-  color: white;
-}
-.scrollable-list {
-  padding-top: 20px;
-  height: 350px;
-  overflow-y:scroll;
-}
-
-.bottom-info {
+.background {
+  margin: 0;
+  height: 100%;
+  background: url('../images/background.jpg') no-repeat ;
+  background-size: cover;
+  top:0;
   bottom: 0;
-  position: fixed;
-  width: 100%;
-  text-align: center
 }

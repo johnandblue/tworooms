@@ -1,0 +1,218 @@
+.ratings {
+  display: flex;
+  justify-content: space-around;
+  margin-left: 240px;
+  margin-right: 240px;
+  margin-top: 130px;
+  opacity: 0.5;
+}
+
+.outside {
+  cursor: pointer;
+  display: flex;
+  top: 374px;
+  height: 120px;
+  width: 120px;
+  border-radius: 120px;
+  text-align: center;
+  position: absolute;;
+  z-index : 1;
+  margin: auto;
+
+}
+
+.inside {
+  opacity: 0.5;
+  top: 10px;
+  left: 10px;
+  height: 0px;
+  width: 0px;
+  border-radius: 60px;
+  box-sizing: border-box;
+  text-align: center;
+  margin: auto;
+  z-index : 1;
+  margin: auto;
+  display: flex;
+  margin: auto;
+  justify-content: center;
+
+}
+
+.hole {
+  opacity: 0.5;
+  height: 0px;
+  width: 0px;
+  border-radius: 60px;
+  box-sizing: border-box;
+  text-align: center;
+  margin: auto;
+  z-index : 1;
+  margin: auto;
+  opacity: 0.5;
+
+
+}
+
+.outside:hover .inside{
+  animation-name: expand;
+  animation-duration: 1.5s;
+
+}
+
+.outside:hover .hole{
+  cursor:grab;
+  animation-name: hole;
+  animation-duration: 0.5s;
+  animation-delay: 0.3s;
+
+}
+
+
+.circle {
+  left: 27px;
+  height: 60px;
+  width: 60px;
+  border-radius: 60px;
+  border: solid 4px #80d4ff;
+  text-align: center;
+  position: relative;
+  z-index : -10;
+  margin: auto;
+  margin-top: 28px;
+  overflow: hidden;
+
+}
+.sad:before{
+  content: "";
+  position: absolute;
+  left: 20%;
+  bottom: 10px;
+  height: 15px;
+  width: 30px;
+  border-top: solid 4px #80d4ff;
+  border-right: solid 4px #80d4ff;
+  border-left: solid 4px #80d4ff;
+  border-top-left-radius: 40px;
+  border-top-right-radius: 40px;
+}
+.worst:before {
+  border-bottom: solid 3px #80d4ff;
+}
+
+.regular:before {
+  content: "";
+  position: absolute;
+  left: 25%;
+  bottom: 14px;
+  height: 8px;
+  width: 30px;
+  border-bottom: solid 4px #80d4ff;
+
+}
+.fill{
+  overflow: hidden;
+  height: 100%;
+  position: relative;
+  z-index: -1;
+}
+.fill-container{
+  position: relative;
+  z-index: -1;
+  height: 80px;
+  overflow: hidden;
+  width: 0;
+  animation-name: percentage;
+  animation-duration: 2s;
+  animation-delay: 0s;
+}
+
+.smile:before {
+  content: "";
+  position: absolute;
+  left: 20%;
+  bottom: 10px;
+  height: 15px;
+  width: 30px;
+  border-bottom: solid 4px #80d4ff;
+  border-right: solid 4px #80d4ff;
+  border-left: solid 4px #80d4ff;
+  border-bottom: solid 4px #80d4ff;
+  border-bottom-left-radius: 40px;
+  border-bottom-right-radius: 40px;
+}
+.best:before {
+  border-top: solid 4px #80d4ff;
+}
+
+
+
+
+/*//EXPANDING CIRCLE ANIMATION//*/
+
+@keyframes expand {
+  0%   {
+
+    height: 0px;
+    width: 0px;
+    background: radial-gradient(#6D6FCD 100%,white 20%);
+    opacity: 1;
+  }
+
+  50%   {
+
+    opacity: 0.5;
+    height: 120px;
+    width: 120px;
+    border-radius: 120px;
+    background: radial-gradient(#6D6FCD 100%,white 20%);
+  }
+
+  100% {
+    background-image: url('../images/tick.png');
+    opacity: 1;
+    height: 30px;
+    width: 30px;
+    border-radius: 30px;
+    background: radial-gradient(#6D6FCD 100%,white 20%);
+  }
+}
+
+
+@keyframes percentage {
+  0% {
+    width: 0;
+  }
+  100%{
+    width: 700px;
+  }
+}
+
+
+
+@keyframes hole {
+  0%   {
+    height: 0px;
+    width: 0px;
+    border-radius: 67px;
+    background: radial-gradient(#6D6FCD 0%,white 100%);
+    opacity: 1;
+    border: 1px solid #0033cc;
+  }
+
+  50%   {
+    opacity: 0.9;
+    border: 10px solid #0033cc;
+
+  }
+
+  100% {
+
+    opacity: 0.5;
+    border: 0px solid #0033cc;
+    height: 120px;
+    width: 120px;
+    border-radius: 120px;
+    background: radial-gradient(#6D6FCD 0%,white 100%);
+  }
+}
